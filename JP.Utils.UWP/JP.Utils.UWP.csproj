@@ -111,6 +111,7 @@
     <Compile Include="Application\BackgroundTaskHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
     <Compile Include="Data\FileHelper.cs" />
+    <Compile Include="Data\ICollectionExtension.cs" />
     <Compile Include="Data\Json\JsonMaker.cs" />
     <Compile Include="Data\Json\JsonParser.cs" />
     <Compile Include="Data\LocalSettingHelper.cs" />
