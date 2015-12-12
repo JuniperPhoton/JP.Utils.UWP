@@ -12,6 +12,7 @@ using System.IO;
 using JP.Utils.Debug;
 using JP.Exceptions;
 using JP.Utils.Network;
+using System.Threading;
 
 namespace JP.API
 {
@@ -34,7 +35,7 @@ namespace JP.API
 
                     var buffer = await response.Content.ReadAsBufferAsync();
                     var streamImage = buffer.AsStream();
-
+                    
                     return streamImage.AsRandomAccessStream();
                 }
                 catch(Exception)
@@ -50,12 +51,12 @@ namespace JP.API
         /// <typeparam name="T">返回的对象</typeparam>
         /// <param name="url">URL</param>
         /// <returns></returns>
-        public static async Task<CommonRespMsg> SendGetRequestAsync(string url)
+        public static async Task<CommonRespMsg> SendGetRequestAsync(string url,CancellationToken token)
         {
             try
             {
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
-                return await SendRequest(request);
+                return await SendRequest(request,token);
             }
             catch(APIException e)
             {
@@ -75,7 +76,7 @@ namespace JP.API
         /// <param name="url">URL</param>
         /// <param name="paras">POST 参数</param>
         /// <returns></returns>
-        public static async Task<CommonRespMsg> SendPostRequestAsync(string url, List<KeyValuePair<string, string>> paras)
+        public static async Task<CommonRespMsg> SendPostRequestAsync(string url, List<KeyValuePair<string, string>> paras,CancellationToken token)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace JP.API
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Content = new HttpFormUrlEncodedContent(paras);
 
-                return await SendRequest(request);
+                return await SendRequest(request,token);
             }
             catch(Exception ex)
             {
@@ -100,21 +101,26 @@ namespace JP.API
         /// <param name="url">URL</param>
         /// <param name="paras">POST 参数</param>
         /// <returns></returns>
-        public static async Task<CommonRespMsg> SendPostRequestAsync(string url, string paramsInRaw)
+        public static async Task<CommonRespMsg> SendPostRequestAsync(string url, string paramsInRaw, CancellationToken token)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
             request.Content = new HttpStringContent(paramsInRaw);
-            return await SendRequest(request);
+            return await SendRequest(request,token);
         }
 
-        private static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request)
+        private static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request,CancellationToken token)
         {
             var msgToReturn = new CommonRespMsg();
             try
             {
                 using (var client = new HttpClient())
                 {
-                    var resp = await client.SendRequestAsync(request);
+                    HttpResponseMessage resp = null;
+                    if(token== null)
+                    {
+                        resp=await client.SendRequestAsync(request);
+                    }
+                    else resp = await client.SendRequestAsync(request).AsTask(token);
                     resp.EnsureSuccessStatusCode();
                     var bytes = await resp.Content.ReadAsBufferAsync();
                     var content = Encoding.UTF8.GetString(bytes.ToArray());
@@ -137,6 +143,7 @@ namespace JP.API
                             msgToReturn.ErrorMsg = errorMsg;
                         }
                     }
+                    resp.Dispose();
                 }
             }
             catch(Exception e)

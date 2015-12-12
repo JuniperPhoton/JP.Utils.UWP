@@ -38,7 +38,7 @@ namespace JP.Utils.Functions
                 }
                 else dic.Add(key, value);
             }
-            catch(Exception e)
+            catch(Exception)
             {
 
             }

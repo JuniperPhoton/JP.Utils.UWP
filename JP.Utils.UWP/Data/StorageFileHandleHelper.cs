@@ -28,5 +28,24 @@ namespace JP.Utils.Data
             }
         }
 
+        /// <summary>
+        /// 尝试从文件夹中获得文件
+        /// </summary>
+        /// <param name="folder">文件夹</param>
+        /// <param name="folderName">文件名</param>
+        /// <returns>如果文件不存在，则返回 NULL</returns>
+        public async static Task<StorageFolder> TryGetFolderAsync(this StorageFolder folder, string folderName)
+        {
+            try
+            {
+                var foundFolder = await folder.GetFolderAsync(folderName);
+                return foundFolder;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 }

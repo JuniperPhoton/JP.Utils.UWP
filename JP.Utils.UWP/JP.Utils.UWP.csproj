@@ -110,6 +110,7 @@
     <Compile Include="Application\ApplicationPackageManager.cs" />
     <Compile Include="Application\BackgroundTaskHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
+    <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\FileHelper.cs" />
     <Compile Include="Data\ICollectionExtension.cs" />
     <Compile Include="Data\Json\JsonMaker.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Triggers\InputTypeTrigger.cs" />
     <Compile Include="UI\ColorConverter.cs" />
     <Compile Include="UI\ListViewScrollExtension.cs" />
+    <Compile Include="Framework\ScrollViewerStyleChanger.cs" />
     <Compile Include="UI\ScrollViewExtensions.cs" />
     <Content Include="NotificationsExtensions.dll" />
     <Content Include="Properties\JP.Utils.UWP.rd.xml" />

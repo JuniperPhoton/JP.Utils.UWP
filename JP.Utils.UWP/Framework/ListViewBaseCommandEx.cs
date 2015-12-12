@@ -21,7 +21,6 @@ namespace JP.Utils.Framework
             obj.SetValue(ItemClickCommandProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemClickCommandProperty =
             DependencyProperty.RegisterAttached("ItemClickCommand", typeof(ICommand), typeof(ListViewBaseCommandEx), new PropertyMetadata(null, OnGridTappedCommandPropertyChanged));
 
@@ -36,6 +35,7 @@ namespace JP.Utils.Framework
 
             if (currentBase != null)
             {
+                currentBase.ItemClick -= Control_ItemClick;
                 currentBase.ItemClick += Control_ItemClick;
             }
         }
@@ -54,7 +54,7 @@ namespace JP.Utils.Framework
             if (currentBase != null)
             {
                 var command = GetItemClickCommand(currentBase);
-
+                
                 var paramter = e.ClickedItem;
 
                 object obj = null;

@@ -81,7 +81,7 @@ namespace JP.Utils.Data
                 }
                 else return default(T);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return default(T);
             }

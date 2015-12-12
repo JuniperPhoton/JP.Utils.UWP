@@ -82,7 +82,6 @@ namespace JP.Utils.UI
                 string mediumname = await SaveUIElementToFile(mediumTileGrid, TileCategory.Medium);
                 string smallname = await SaveUIElementToFile(smallTileGrid, TileCategory.Small);
 
-
                 if (String.IsNullOrEmpty(widename) || String.IsNullOrEmpty(mediumname) || String.IsNullOrEmpty(smallname) || String.IsNullOrEmpty(largename))
                 {
                     throw new NullReferenceException();
