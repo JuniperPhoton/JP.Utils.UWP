@@ -39,7 +39,7 @@ namespace JP.Utils.Data
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e, nameof(SerializerHelper), "SerializerToJson<T>");
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), "SerializerToJson<T>");
                 return false;
             }
 

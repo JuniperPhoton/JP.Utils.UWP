@@ -70,7 +70,7 @@ namespace ChaoFunctionRT
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e, nameof(BitmapHandleHelper), nameof(ResizeImage));
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(BitmapHandleHelper), nameof(ResizeImage));
                 return null;
             }
         }

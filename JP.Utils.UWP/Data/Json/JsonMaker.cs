@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace JP.Utils.Data.Json
 {
@@ -71,6 +72,18 @@ namespace JP.Utils.Data.Json
                 str = string.Format("\\\"{0}\\\":{1}", propertyName, propertyValue?"true":"false");
             }
             else str = string.Format("\"{0}\":{1}", propertyName, propertyValue? "true" : "false");
+
+            return str;
+        }
+
+        public static string MakeJsonObj(string propertyName, JsonArray propertyValue, bool isString = false)
+        {
+            string str;
+            if (isString)
+            {
+                str = string.Format("\\\"{0}\\\":{1}", propertyName, propertyValue.ToString());
+            }
+            else str = string.Format("\"{0}\":{1}", propertyName, propertyValue.ToString());
 
             return str;
         }

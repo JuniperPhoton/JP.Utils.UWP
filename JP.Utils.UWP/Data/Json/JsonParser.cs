@@ -40,7 +40,7 @@ namespace JP.Utils.Data.Json
             }
         }
 
-        public static double GetNumberFromJsonObj(IJsonValue obj, string propertyName)
+        public static double GetNumberFromJsonObj(IJsonValue obj, string propertyName,double defaultValue=0)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace JP.Utils.Data.Json
             }
             catch (Exception)
             {
-                return -1;
+                return defaultValue;
             }
         }
 

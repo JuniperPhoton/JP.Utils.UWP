@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using System.Runtime.InteropServices;
 using JP.Utils.Data;
+using System.IO;
+using Windows.ApplicationModel.Email;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage.Streams;
 
 namespace JP.Utils.Debug
 {
@@ -18,7 +22,7 @@ namespace JP.Utils.Debug
         /// <param name="e">EX</param>
         /// <param name="methodName">附带的信息</param>
         /// <returns>成功返回TRUE，失败返回FALSE</returns>
-        public async static Task<bool> WriteRecord(Exception e,string className="", string methodName = "")
+        public async static Task<bool> WriteRecordAsync(Exception e,string className="", string methodName = "",string extraStr="")
         {
             try
             {
@@ -35,6 +39,9 @@ namespace JP.Utils.Debug
                     "METHOD:"+
                     methodName+
                     Environment.NewLine+
+                    "EXTRA:"+
+                    extraStr+
+                    Environment.NewLine+
                     "---------------");
                 return true;
             }
@@ -48,7 +55,7 @@ namespace JP.Utils.Debug
         /// 读出独立储存的文件
         /// </summary>
         /// <returns>返回读出的字符串，如果出错则返回NULL</returns>
-        public async static Task<string> ReadRecord()
+        public async static Task<string> ReadRecordAsync()
         {
             try
             {
@@ -62,6 +69,27 @@ namespace JP.Utils.Debug
             catch (Exception)
             {
                 return "";
+            }
+        }
+
+        public async static Task<EmailAttachment> GetLogFileAttachement()
+        {
+            try
+            {
+                var localfolder = ApplicationData.Current.LocalFolder;
+                var file = await localfolder.GetFileAsync("error.log");
+
+                if (file == null) throw new ArgumentNullException();
+
+                var attachment = new EmailAttachment();
+                attachment.FileName = "error.txt";
+                attachment.Data = RandomAccessStreamReference.CreateFromFile(file);
+
+                return attachment;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 

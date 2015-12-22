@@ -64,7 +64,7 @@ namespace JP.API
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e, nameof(APIHelper), nameof(SendGetRequestAsync)+url);
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendGetRequestAsync)+url);
                 return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = e.Message };
             }
         }
@@ -80,13 +80,14 @@ namespace JP.API
         {
             try
             {
-                paras.Add(new KeyValuePair<string, string>("device", VersionHelper.Device));
-                paras.Add(new KeyValuePair<string, string>("device_type", VersionHelper.DeviceType));
-                paras.Add(new KeyValuePair<string, string>("version", VersionHelper.Version));
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Content = new HttpFormUrlEncodedContent(paras);
 
                 return await SendRequest(request,token);
+            }
+            catch(TaskCanceledException ex)
+            {
+                throw ex;
             }
             catch(Exception ex)
             {
@@ -148,7 +149,7 @@ namespace JP.API
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e, nameof(APIHelper), nameof(SendRequest)+request.RequestUri);
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendRequest)+request.RequestUri);
                 msgToReturn.IsSuccessful = false;
                 msgToReturn.ExtraErrorMsg += e.Message;
                 throw e;
