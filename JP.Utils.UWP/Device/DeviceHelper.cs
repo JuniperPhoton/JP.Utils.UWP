@@ -40,6 +40,15 @@ namespace JP.Utils.Helper
             return new string[] { v1.ToString(),v2.ToString(),v3.ToString(),v4.ToString()};
         }
 
+        public static string OSVersion
+        {
+            get
+            {
+                var versions = GetDeviceOsVersion();
+                return versions.ToString();
+            }
+        }
+
         public static bool IsTH1OS
         {
             get

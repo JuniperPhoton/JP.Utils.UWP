@@ -13,6 +13,13 @@ namespace JP.Utils.UI
         {
             return String.Format("#{0:x2}{1:x2}{2:x2}", (int)r, (int)g, (int)b);
         }
+
+        /// <summary>
+        /// 将16进制的颜色标识转换为ARGB 表示的Color
+        /// 主要不要以FF开头
+        /// </summary>
+        /// <param name="hexColor"></param>
+        /// <returns></returns>
         public static Color Hex2Color(string hexColor)
         {
             string r, g, b;

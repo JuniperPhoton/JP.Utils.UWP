@@ -1535,6 +1535,14 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
@@ -3160,6 +3168,14 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
@@ -4756,6 +4772,14 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       }
     },
@@ -6387,6 +6411,14 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
@@ -7983,6 +8015,14 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       }
     },
@@ -9614,6 +9654,14 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
@@ -11210,6 +11258,14 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
+        }
+      },
+      "UmengAnalytics/3.1.0": {
+        "compile": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
+        },
+        "runtime": {
+          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       }
     }
@@ -14562,11 +14618,30 @@
         "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll",
         "System.Xml.XmlSerializer.nuspec"
       ]
+    },
+    "UmengAnalytics/3.1.0": {
+      "sha512": "zTkbAgLvGEobpAvSnEEuHc6RWX8stjB5GHdBQHA9O1ovcyxxuClL5/alcm1Og+RIEy+V4nvCfFerHXymGEf5Sw==",
+      "type": "Package",
+      "files": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "content/_._",
+        "lib/netcore45/UmengAnalyticsWinRT.dll",
+        "lib/netcore451/UmengAnalyticsUniversal.dll",
+        "lib/sl3-wp/UmengAnalyticsWP7.dll",
+        "lib/sl4-wp71/UmengAnalyticsWP7.dll",
+        "lib/wp8/UmengAnalyticsWP8.dll",
+        "lib/wp81/UmengAnalyticsWP8.dll",
+        "lib/wpa81/UmengAnalyticsUniversal.dll",
+        "package/services/metadata/core-properties/9bf85c6dc2e1428999cae179b9ea0991.psmdcp",
+        "UmengAnalytics.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0"
+      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
+      "UmengAnalytics >= 3.1.0"
     ],
     "UAP,Version=v10.0": []
   }

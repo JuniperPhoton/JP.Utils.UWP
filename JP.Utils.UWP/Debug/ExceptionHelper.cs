@@ -28,21 +28,22 @@ namespace JP.Utils.Debug
             {
                 var localfolder = ApplicationData.Current.LocalFolder;
                 var file = await localfolder.CreateFileAsync("error.log", CreationCollisionOption.OpenIfExists);
-                await FileIO.AppendTextAsync(file,
+                var contents = Environment.NewLine +
+                    "EXCEPTION:" +
+                    e.ToString() +
                     Environment.NewLine +
-                    "EXCEPTION:" + 
-                    e.Message + 
-                    Environment.NewLine + 
-                    "CLASS:" + 
-                    className+
-                    Environment.NewLine+
-                    "METHOD:"+
-                    methodName+
-                    Environment.NewLine+
-                    "EXTRA:"+
-                    extraStr+
-                    Environment.NewLine+
-                    "---------------");
+                    "CLASS:" +
+                    className +
+                    Environment.NewLine +
+                    "METHOD:" +
+                    methodName +
+                    Environment.NewLine +
+                    "EXTRA:" +
+                    extraStr +
+                    Environment.NewLine +
+                    "---------------";
+                await FileIO.AppendTextAsync(file,contents);
+                await UmengSDK.UmengAnalytics.TrackError(contents);
                 return true;
             }
             catch (Exception)

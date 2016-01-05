@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Application\ApplicationPackageManager.cs" />
     <Compile Include="Application\BackgroundTaskHelper.cs" />
+    <Compile Include="Application\ContactHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\Constrain.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Framework\ListViewBaseCommandEx.cs" />
     <Compile Include="Framework\UIElementTapCommand.cs" />
     <Compile Include="Functions\Functions.cs" />
+    <Compile Include="Global\GlobalFunc.cs" />
     <Compile Include="Image\BitmapImageHelper.cs" />
     <Compile Include="Image\ImageHandleHelper.cs" />
     <Compile Include="Network\APIHelper.cs" />

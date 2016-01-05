@@ -19,7 +19,7 @@ namespace JP.Utils.Data
         /// <typeparam name="T">需要序列化的类的类型</typeparam>
         /// <param name="objectToBeSer">被序列化的对象</param>
         /// <param name="fileName">要保存到独立储存的文件名</param>
-        public async static Task<bool> SerializerToJson<T>(object objectToBeSer, string fileName, bool isReplace=true)
+        public async static Task<bool> SerializerToJson<T>(object objectToBeSer, string fileName,StorageFolder defaultFolder=null, bool isReplace=true)
         {
             try
             {
@@ -31,7 +31,11 @@ namespace JP.Utils.Data
                     jsonString = Encoding.UTF8.GetString(ms.ToArray(), 0, (int)ms.Length);
                 }
 
-                var folder = ApplicationData.Current.LocalFolder;
+                StorageFolder folder = defaultFolder;
+                if(folder== null)
+                {
+                    folder = ApplicationData.Current.LocalFolder;
+                }
                 var file = await folder.CreateFileAsync(fileName, (isReplace ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName));
                 await FileIO.WriteTextAsync(file, jsonString);
 
@@ -51,11 +55,15 @@ namespace JP.Utils.Data
         /// <typeparam name="T">要反序列化获得的对象</typeparam>
         /// <param name="filename">储存在独立储存的文件名</param>
         /// <returns>返回反序列化后的对象，如果文件不存在，返回一个Object类型的对象</returns>
-        public async static Task<T> DeserializeFromJsonByFileName<T>(string filename)
+        public async static Task<T> DeserializeFromJsonByFileName<T>(string filename, StorageFolder defaultFolder = null)
         {
             try
             {
-                var folder = ApplicationData.Current.LocalFolder;
+                StorageFolder folder = defaultFolder;
+                if (folder == null)
+                {
+                    folder = ApplicationData.Current.LocalFolder;
+                }
                 var file = await folder.GetFileAsync(filename);
                 string jsonString = await FileIO.ReadTextAsync(file);
 
