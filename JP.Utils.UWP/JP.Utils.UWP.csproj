@@ -111,6 +111,7 @@
     <Compile Include="Application\BackgroundTaskHelper.cs" />
     <Compile Include="Application\ContactHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
+    <Compile Include="CustomControl\ContentPopupEx\ContentPopupEx.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\Constrain.cs" />
     <Compile Include="Data\FileHelper.cs" />
@@ -149,6 +150,12 @@
     <Compile Include="UI\ScrollViewExtensions.cs" />
     <Content Include="NotificationsExtensions.dll" />
     <Content Include="Properties\JP.Utils.UWP.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
