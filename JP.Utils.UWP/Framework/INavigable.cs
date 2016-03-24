@@ -20,6 +20,8 @@ namespace JP.Utils.Framework
         /// <param name="param"></param>
         void Deactivate(object param);
 
+        void OnLoaded();
+
         bool IsInView { get; set; }
 
         bool IsFirstActived { get; set; }

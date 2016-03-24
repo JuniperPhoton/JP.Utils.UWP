@@ -16,7 +16,7 @@ namespace JP.Utils.Data.Json
         /// <param name="obj"></param>
         /// <param name="propertyName"></param>
         /// <returns></returns>
-        public static string GetStringFromJsonObj(IJsonValue obj,string propertyName)
+        public static string GetStringFromJsonObj(IJsonValue obj,string propertyName,string defaultValue=null)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace JP.Utils.Data.Json
             }
             catch(Exception)
             {
-                return null;
+                return defaultValue;
             }
         }
 

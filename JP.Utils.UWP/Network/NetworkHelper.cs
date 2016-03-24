@@ -13,28 +13,6 @@ namespace JP.Utils.Network
     public class NetworkHelper
     {
         /// <summary>
-        /// 返回MD5加密后的字符串
-        /// </summary>
-        /// <param name="md5Hash"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public static string GetMd5Hash(MD5 md5Hash, string input)
-        {
-
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            StringBuilder sBuilder = new StringBuilder();
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            return sBuilder.ToString();
-        }
-
-
-        /// <summary>
         /// 返回SHA1加密后的字符串
         /// </summary>
         /// <returns></returns>

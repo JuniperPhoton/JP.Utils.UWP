@@ -1,4 +1,6 @@
-﻿using Windows.ApplicationModel.Resources.Core;
+﻿using System.Text.RegularExpressions;
+using Windows.ApplicationModel.Resources.Core;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.System.Profile;
 
 namespace JP.Utils.Helper
@@ -44,8 +46,13 @@ namespace JP.Utils.Helper
         {
             get
             {
-                var versions = GetDeviceOsVersion();
-                return versions.ToString();
+                string sv = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
+                ulong v = ulong.Parse(sv);
+                ulong v1 = (v & 0xFFFF000000000000L) >> 48;
+                ulong v2 = (v & 0x0000FFFF00000000L) >> 32;
+                ulong v3 = (v & 0x00000000FFFF0000L) >> 16;
+                ulong v4 = (v & 0x000000000000FFFFL);
+                return $"{v1}.{v2}.{v3}.{v4}";
             }
         }
 
@@ -64,6 +71,28 @@ namespace JP.Utils.Helper
             {
                 var versions = GetDeviceOsVersion();
                 return versions[2] == "10586" ? true : false;
+            }
+        }
+
+        public static string DeviceModel
+        {
+            get
+            {
+                EasClientDeviceInformation eas = new EasClientDeviceInformation();
+                return eas.SystemProductName;
+            }
+        }
+
+        public static bool IsSupportHightResolution
+        {
+            get
+            {
+                var deviceModel = DeviceModel;
+                if (Regex.IsMatch(deviceModel, @"984|939|937|927|1087|1045|1118|1116|1104|1085|1027|1010"))
+                {
+                    return true;
+                }
+                else return false;
             }
         }
     }

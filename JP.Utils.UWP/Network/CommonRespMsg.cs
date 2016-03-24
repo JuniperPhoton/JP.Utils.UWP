@@ -21,8 +21,11 @@
 
         public string JsonSrc { get; set; } = string.Empty;
 
+        public string ExtraData { get; set; }
+
         public CommonRespMsg()
         {
+
         }
     }
 }

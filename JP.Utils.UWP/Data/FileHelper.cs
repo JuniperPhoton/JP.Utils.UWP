@@ -6,13 +6,21 @@ using Windows.Storage.Streams;
 
 namespace JP.Utils.Data
 {
-    public static class FileHelper
+    public static class FileReadHelper
     {
         public static async Task<byte[]> ReadFileToByteArrayAsync(this StorageFile file)
         {
             using (var stream = await file.OpenReadAsync())
             {
                 return stream.ReadStreamToByteArray();
+            }
+        }
+
+        public static async Task<IRandomAccessStream> ReadFileToIRandomStreamAsync(this StorageFile file)
+        {
+            using (var stream = await file.OpenStreamForReadAsync())
+            {
+                return stream.AsRandomAccessStream();
             }
         }
 

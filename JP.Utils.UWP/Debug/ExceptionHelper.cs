@@ -82,9 +82,14 @@ namespace JP.Utils.Debug
 
                 if (file == null) throw new ArgumentNullException();
 
+                var copiedFile = await file.CopyAsync(localfolder, "error.log", NameCollisionOption.GenerateUniqueName);
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                if (copiedFile == null) throw new ArgumentNullException();
+
                 var attachment = new EmailAttachment();
-                attachment.FileName = "error.txt";
-                attachment.Data = RandomAccessStreamReference.CreateFromFile(file);
+                attachment.FileName = "错误日志.log";
+                attachment.Data = RandomAccessStreamReference.CreateFromFile(copiedFile);
 
                 return attachment;
             }

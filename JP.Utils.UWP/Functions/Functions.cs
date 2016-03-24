@@ -46,7 +46,7 @@ namespace JP.Utils.Functions
 
         public static bool IsValidMobileNum(string strln)
         {
-            return Regex.IsMatch(strln, @"^[1]+[8,3,5]+\d{9}");
+            return Regex.IsMatch(strln, @"^[1]+[8,3,5,7,4]+\d{9}");
         }
 
         public static string MakeStringFromList(List<string> list)

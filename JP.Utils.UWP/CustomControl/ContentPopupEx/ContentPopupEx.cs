@@ -6,6 +6,12 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace JP.UWP.CustomControl
 {
+    public enum LayoutEnum
+    {
+        Stretch,
+        Center,
+        Bottom
+    }
     public class ContentPopupEx : ContentControl
     {
         private TaskCompletionSource<int> _tcs;
@@ -16,6 +22,9 @@ namespace JP.UWP.CustomControl
         private Border _maskBorder;
 
         private Popup _currentPopup;
+        private LayoutEnum _layout;
+
+        public bool PlayPopupAnim = true;
 
         private Storyboard _inStory;
         private Storyboard _outStory;
@@ -56,9 +65,10 @@ namespace JP.UWP.CustomControl
             CurrentPage.SizeChanged += Page_SizeChanged;
         }
 
-        public ContentPopupEx(FrameworkElement element) : this()
+        public ContentPopupEx(FrameworkElement element,LayoutEnum layout=LayoutEnum.Center) : this()
         {
             this._rootFramework = element;
+            this._layout = layout;
         }
 
         protected override void OnApplyTemplate()
@@ -66,6 +76,16 @@ namespace JP.UWP.CustomControl
             base.OnApplyTemplate();
             _rootGrid = GetTemplateChild("RootGrid") as Grid;
             _contentGrid = GetTemplateChild("ContentGrid") as Grid;
+            if(_layout==LayoutEnum.Stretch)
+            {
+                _contentGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                _contentGrid.VerticalAlignment = VerticalAlignment.Stretch;
+            }
+            else if(_layout==LayoutEnum.Bottom)
+            {
+                _contentGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                _contentGrid.VerticalAlignment = VerticalAlignment.Bottom;
+            }
             _contentGrid.Children.Add(_rootFramework);
             _inStory = _rootGrid.Resources["InStory"] as Storyboard;
             _outStory = _rootGrid.Resources["OutStory"] as Storyboard;
@@ -99,10 +119,12 @@ namespace JP.UWP.CustomControl
         public async Task ShowAsync()
         {
             await _tcs.Task;
+            PopupService.CurrentShownCPEX = this;
             UpdateCurrentLayout();
             _maskBorder.Visibility = Visibility.Visible;
             _isOpen = true;
-            _inStory.Begin();
+            if(PlayPopupAnim)
+                _inStory.Begin();
         }
 
         public void Hide()
@@ -110,6 +132,7 @@ namespace JP.UWP.CustomControl
             _isOpen = false;
             _outStory.Begin();
             _maskBorder.Visibility = Visibility.Collapsed;
+            PopupService.CurrentShownCPEX = null;
         }
     }
 }
