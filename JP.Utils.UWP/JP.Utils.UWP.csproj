@@ -107,10 +107,17 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\FlowsAnimator.cs" />
+    <Compile Include="Animation\IAnimator\AbstractScalarAnimator.cs" />
+    <Compile Include="Animation\IAnimator\AbstractVertor3Animator.cs" />
+    <Compile Include="Animation\IAnimator\FadeAnimator.cs" />
+    <Compile Include="Animation\IAnimator\IAnimator.cs" />
+    <Compile Include="Animation\IAnimator\MoveAnimator.cs" />
     <Compile Include="Application\ApplicationPackageManager.cs" />
     <Compile Include="Application\BackgroundTaskHelper.cs" />
     <Compile Include="Application\ContactHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
+    <Compile Include="CompositionAPI\CompositionAPIUtil.cs" />
     <Compile Include="CustomControl\ContentPopupEx\ContentPopupEx.cs" />
     <Compile Include="CustomControl\ContentPopupEx\PopupService.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />

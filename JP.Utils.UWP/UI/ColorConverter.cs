@@ -35,7 +35,7 @@ namespace JP.Utils.UI
         /// </summary>
         /// <param name="hexColor"></param>
         /// <returns></returns>
-        public static Color Hex2Color(string hexColor)
+        public static Color? Hex2Color(string hexColor)
         {
             string r, g, b;
             string a = "FF";
@@ -65,7 +65,7 @@ namespace JP.Utils.UI
                 return Color.FromArgb((byte)Convert.ToInt32(a), (byte)Convert.ToInt32(r), (byte)Convert.ToInt32(g), (byte)Convert.ToInt32(b));
             }
 
-            return default(Color);
+            return null;
         }
         private static int GetIntFromHex(string strHex)
         {

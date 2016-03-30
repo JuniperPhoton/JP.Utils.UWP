@@ -9,9 +9,7 @@ using Windows.Storage.Streams;
 using Windows.Web.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.IO;
-using JP.Utils.Debug;
 using JP.Exceptions;
-using JP.Utils.Network;
 using System.Threading;
 
 namespace JP.API
@@ -64,7 +62,7 @@ namespace JP.API
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendGetRequestAsync)+url);
+                //var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendGetRequestAsync)+url);
                 return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = e.Message };
             }
         }
@@ -150,7 +148,7 @@ namespace JP.API
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendRequest)+request.RequestUri);
+               // var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendRequest)+request.RequestUri);
                 msgToReturn.IsSuccessful = false;
                 msgToReturn.ExtraErrorMsg += e.Message;
                 //throw e;

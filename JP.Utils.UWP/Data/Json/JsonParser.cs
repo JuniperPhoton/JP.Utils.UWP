@@ -52,6 +52,18 @@ namespace JP.Utils.Data.Json
             }
         }
 
+        public static double? GetNullableNumberFromJsonObj(IJsonValue obj, string propertyName, double? defaultValue = null)
+        {
+            try
+            {
+                return obj.GetObject()[propertyName].GetNumber();
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
         public static bool GetBooleanFromJsonObj(IJsonValue obj, string propertyName,bool defaultValue = false)
         {
             try

@@ -5,6 +5,15 @@ using Windows.System.Profile;
 
 namespace JP.Utils.Helper
 {
+    public enum DeivceFamily
+    {
+        Desktop,
+        Mobile,
+        IoT,
+        Xbox,
+        Unknown
+    }
+
     public static class DeviceHelper
     {
         /// <summary>
@@ -30,6 +39,37 @@ namespace JP.Utils.Helper
                 return qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Mobile";
             }
         }
+
+        public static bool IsIoT
+        {
+            get
+            {
+                var qualifiers = ResourceContext.GetForCurrentView().QualifierValues;
+                return qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "IoT";
+            }
+        }
+
+        public static bool IsXbox
+        {
+            get
+            {
+                var qualifiers = ResourceContext.GetForCurrentView().QualifierValues;
+                return qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Xbox";
+            }
+        }
+
+        public static DeivceFamily GetDeviceFamily
+        {
+            get
+            {
+                if (IsDesktop) return DeivceFamily.Desktop;
+                else if (IsMobile) return DeivceFamily.Mobile;
+                else if (IsIoT) return DeivceFamily.IoT;
+                else if (IsXbox) return DeivceFamily.Xbox;
+                else return DeivceFamily.Unknown;
+            }
+        }
+
 
         private static string[] GetDeviceOsVersion()
         {
