@@ -1,7 +1,8 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "UmengAnalytics": "3.1.0"
+    "UmengAnalytics": "3.1.0",
+    "Win2D.uwp": "1.16.0"
   },
   "frameworks": {
     "uap10.0": {}

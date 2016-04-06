@@ -118,12 +118,7 @@
     <Compile Include="Application\ContactHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
     <Compile Include="CompositionAPI\CompositionAPIUtil.cs" />
-    <Compile Include="CompositionAPI\Image\CompositionImage.cs" />
-    <Compile Include="CompositionAPI\Image\ImageLoader\ImageLoader.cs" />
-    <Compile Include="CompositionAPI\Image\ImageLoader\ManagedSurface.cs" />
-    <Compile Include="CompositionAPI\Image\SurfaceLoader.cs" />
-    <Compile Include="CompositionAPI\Image\UIElementExtensionMethods.cs" />
-    <Compile Include="CompositionAPI\Image\VisualTreeHelperExtensions.cs" />
+    <Compile Include="CompositionAPI\EasingFuncFactory.cs" />
     <Compile Include="CustomControl\ContentPopupEx\ContentPopupEx.cs" />
     <Compile Include="CustomControl\ContentPopupEx\PopupService.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />

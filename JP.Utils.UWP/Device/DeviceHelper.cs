@@ -127,12 +127,12 @@ namespace JP.Utils.Helper
         {
             get
             {
-                var deviceModel = DeviceModel;
-                if (Regex.IsMatch(deviceModel, @"984|939|937|927|1087|1045|1118|1116|1104|1085|1027|1010"))
-                {
-                    return true;
-                }
-                else return false;
+                //var deviceModel = DeviceModel;
+                //if (Regex.IsMatch(deviceModel, @"939|937|927|1087|1045|1118|1116|1104|1085"))
+                //{
+                //    return true;
+                //}
+                return false;
             }
         }
     }
