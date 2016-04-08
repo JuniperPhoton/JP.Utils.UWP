@@ -9,8 +9,7 @@ namespace JP.Utils.Framework
 {
     public class ListViewStickyHeader
     {
-        public static string StickyElementName;
-
+        private static string _stickyElementName;
         private static ListViewBase _listViewBase;
         private static ScrollViewer _scrollViewer;
         private static FrameworkElement _header;
@@ -26,14 +25,14 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty StickyHeaderNameProperty =
-            DependencyProperty.RegisterAttached("StickyHeaderName", typeof(string), typeof(ListViewStickyHeader), new PropertyMetadata(null,OnHeaderPropertyChanged));
+            DependencyProperty.RegisterAttached("StickyHeaderName", typeof(string), typeof(ListViewStickyHeader), new PropertyMetadata(null, OnHeaderPropertyChanged));
 
         private static void OnHeaderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             _listViewBase = d as ListViewBase;
-            StickyElementName = e.NewValue as string;
+            _stickyElementName = e.NewValue as string;
 
-            _listViewBase.RegisterPropertyChangedCallback(ListViewBase.HeaderProperty, (senderx, ex) => 
+            _listViewBase.RegisterPropertyChangedCallback(ListViewBase.HeaderProperty, (senderx, ex) =>
             {
                 _header = _listViewBase.Header as FrameworkElement;
                 _header.SizeChanged += _header_SizeChanged;
@@ -48,7 +47,7 @@ namespace JP.Utils.Framework
 
         private static void InitialStickyHeader()
         {
-            if (_scrollViewer != null && StickyElementName != null)
+            if (_scrollViewer != null && _stickyElementName != null)
             {
                 var header = FindHeader();
 
@@ -90,7 +89,7 @@ namespace JP.Utils.Framework
         private static FrameworkElement FindStickyContent()
         {
             var header = FindHeader();
-            var stickyContent = header.FindName(StickyElementName) as FrameworkElement;
+            var stickyContent = header.FindName(_stickyElementName) as FrameworkElement;
             return stickyContent;
         }
     }
