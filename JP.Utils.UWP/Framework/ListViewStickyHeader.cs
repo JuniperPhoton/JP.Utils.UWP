@@ -1,4 +1,5 @@
 ﻿using JP.Utils.UI;
+using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,6 +10,7 @@ namespace JP.Utils.Framework
     public class ListViewStickyHeader
     {
         public static string StickyElementName;
+
         private static ListViewBase _listViewBase;
         private static ScrollViewer _scrollViewer;
         private static FrameworkElement _header;
@@ -30,6 +32,7 @@ namespace JP.Utils.Framework
         {
             _listViewBase = d as ListViewBase;
             StickyElementName = e.NewValue as string;
+
             _listViewBase.RegisterPropertyChangedCallback(ListViewBase.HeaderProperty, (senderx, ex) => 
             {
                 _header = _listViewBase.Header as FrameworkElement;
@@ -40,28 +43,36 @@ namespace JP.Utils.Framework
         private static void _header_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _scrollViewer = _listViewBase.GetScrollViewer();
-            InitialStickyHeader(_scrollViewer);
+            InitialStickyHeader();
         }
 
-        private static void InitialStickyHeader(ScrollViewer scrollViewer)
+        private static void InitialStickyHeader()
         {
-            if (scrollViewer != null && StickyElementName != null)
+            if (_scrollViewer != null && StickyElementName != null)
             {
                 var header = FindHeader();
-                if (header == null) return;
+
+                //找到 Header 的父容器，设置它的 ZIndex 才能让其在 ListView 的 Items 之上
                 var headerContainer = header.Parent as ContentControl;
 
                 Canvas.SetZIndex(headerContainer, 1);
 
                 var stickyHeader = FindStickyContent();
+
+                if (stickyHeader == null) throw new ArgumentNullException("Make sure you have define x:Name of the UIElement to be sticky.");
+
                 var stickyVisual = ElementCompositionPreview.GetElementVisual(stickyHeader);
                 var compositor = stickyVisual.Compositor;
 
-                var transform = stickyHeader.TransformToVisual((UIElement)scrollViewer.Content);
+                //计算 StickyContent 距离 ScrollViewer Content 顶部的纵向距离
+                var transform = stickyHeader.TransformToVisual((UIElement)_scrollViewer.Content);
                 var offsetY = (float)transform.TransformPoint(new Point(0, 0)).Y;
 
-                var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
+                var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
 
+                //当往下滚动的时候 ScrollingProperties.Translation.Y 不断负向增加，(ScrollingProperties.Translation.Y +OffsetY)
+                //表明 StickyContent 距离顶部还有多少距离，当要滚出屏幕顶部的时候，(-OffsetY - ScrollingProperties.Translation.Y) 
+                //计算还要把 Offset.Y 增加多少才让其 “Sticky“
                 var scrollingAnimation = compositor.CreateExpressionAnimation(
                     "ScrollingProperties.Translation.Y +OffsetY> 0 ? 0 : -OffsetY - ScrollingProperties.Translation.Y");
                 scrollingAnimation.SetReferenceParameter("ScrollingProperties", scrollProperties);
