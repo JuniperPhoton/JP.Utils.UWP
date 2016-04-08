@@ -138,6 +138,7 @@
     <Compile Include="Exception\APIException.cs" />
     <Compile Include="Framework\INavigable.cs" />
     <Compile Include="Framework\ListViewBaseCommandEx.cs" />
+    <Compile Include="Framework\ListViewStickyHeader.cs" />
     <Compile Include="Framework\UIElementTapCommand.cs" />
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Global\GlobalFunc.cs" />

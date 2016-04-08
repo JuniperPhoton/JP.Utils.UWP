@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 
 namespace JP.Utils.UI
@@ -24,7 +20,7 @@ namespace JP.Utils.UI
             else return false;
         }
 
-        public static string RGB2Hex(int r, int g, int b)
+        public static string RGBToHex(int r, int g, int b)
         {
             return String.Format("#{0:x2}{1:x2}{2:x2}", (int)r, (int)g, (int)b);
         }
@@ -35,13 +31,13 @@ namespace JP.Utils.UI
         /// </summary>
         /// <param name="hexColor"></param>
         /// <returns></returns>
-        public static Color? Hex2Color(string hexColor)
+        public static Color? HexToColor(string hexColor)
         {
             string r, g, b;
             string a = "FF";
             hexColor = hexColor.ToUpper();
 
-            if (hexColor != String.Empty)
+            if (hexColor != string.Empty)
             {
                 hexColor = hexColor.Trim();
                 if (hexColor[0] == '#') hexColor = hexColor.Substring(1, hexColor.Length - 1);
@@ -67,6 +63,7 @@ namespace JP.Utils.UI
 
             return null;
         }
+
         private static int GetIntFromHex(string strHex)
         {
             switch (strHex)
