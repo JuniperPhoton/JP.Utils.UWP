@@ -17,7 +17,7 @@ namespace JP.Utils.Network
 
     public class MD5 : IDisposable
     {
-        static public MD5 Create(string hashName)
+        private static MD5 Create(string hashName)
         {
             if (hashName == "MD5")
                 return new MD5();
@@ -25,7 +25,7 @@ namespace JP.Utils.Network
                 throw new NotSupportedException();
         }
 
-        static public String GetMd5String(String source)
+        public static string GetMd5String(string source)
         {
             MD5 md = Create();
             byte[] hash;
@@ -47,7 +47,7 @@ namespace JP.Utils.Network
             return sb.ToString();
         }
 
-        static public MD5 Create()
+        private static MD5 Create()
         {
             return new MD5();
         }

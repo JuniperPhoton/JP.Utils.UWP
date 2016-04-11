@@ -56,13 +56,12 @@ namespace JP.API
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
                 return await SendRequest(request,token);
             }
-            catch(APIException e)
+            catch(TaskCanceledException e)
             {
                 throw e;
             }
             catch (Exception e)
             {
-                //var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendGetRequestAsync)+url);
                 return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = e.Message };
             }
         }
@@ -122,6 +121,7 @@ namespace JP.API
                     }
                     else resp = await client.SendRequestAsync(request).AsTask(token);
                     resp.EnsureSuccessStatusCode();
+
                     var bytes = await resp.Content.ReadAsBufferAsync();
                     var content = Encoding.UTF8.GetString(bytes.ToArray());
                     msgToReturn.JsonSrc = content;
@@ -146,12 +146,14 @@ namespace JP.API
                     resp.Dispose();
                 }
             }
+            catch(TaskCanceledException e)
+            {
+                throw e;
+            }
             catch(Exception e)
             {
-               // var task = ExceptionHelper.WriteRecordAsync(e, nameof(APIHelper), nameof(SendRequest)+request.RequestUri);
                 msgToReturn.IsSuccessful = false;
                 msgToReturn.ExtraErrorMsg += e.Message;
-                //throw e;
             }
             return msgToReturn;
         }

@@ -124,6 +124,7 @@
     <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\Constrain.cs" />
     <Compile Include="Data\DeepCopier.cs" />
+    <Compile Include="Data\ExtMethods.cs" />
     <Compile Include="Data\FileHelper.cs" />
     <Compile Include="Data\ICollectionExtension.cs" />
     <Compile Include="Data\Json\JsonMaker.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Device\PhoneNameResolver.cs" />
     <Compile Include="Exception\APIException.cs" />
     <Compile Include="Framework\INavigable.cs" />
+    <Compile Include="Framework\InvokeCommandByKeyDown.cs" />
     <Compile Include="Framework\ListViewBaseCommandEx.cs" />
     <Compile Include="Framework\ListViewStickyHeader.cs" />
     <Compile Include="Framework\UIElementTapCommand.cs" />

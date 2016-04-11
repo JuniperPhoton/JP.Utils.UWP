@@ -3,7 +3,8 @@
     public class CommonRespMsg
     {
         /// <summary>
-        /// 是否请求成功而且得到正确的数据，如果能请求成功但是返回来有Error字段，也应该是false
+        /// 是否请求成功而且得到正确的数据，如果能请求成功但是返回来有Error字段，也应该是false,
+        /// 请求失败的话应该抛出异常
         /// </summary>
         public bool IsSuccessful { get; set; } = true;
 
