@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace JP.Utils.Framework
 {
-    //Uage:
+    //Usage:
     /*
     <ListView
              attach:ListViewReorderItemAttach.UIElementUsedToMove="ReorderElement"
