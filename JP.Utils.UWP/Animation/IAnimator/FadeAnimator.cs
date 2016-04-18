@@ -17,7 +17,7 @@ namespace JP.Utils.Animation
             _animation = Compositor.CreateScalarKeyFrameAnimation();
             _animation.InsertKeyFrame(0f, _fromValue);
             _animation.InsertKeyFrame(1f, _toValue);
-            _animation.Duration = DurationTime;
+            _animation.Duration = TimeSpan.FromMilliseconds(DurationTimeInMiles);
             RootVisual.StartAnimation("Opacity", _animation);
         }
     }

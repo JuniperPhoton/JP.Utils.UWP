@@ -13,7 +13,7 @@ namespace JP.Utils.Animation
     {
         UIElement UIElement { get; set; }
 
-        TimeSpan DurationTime { get; set; }
+        int DurationTimeInMiles { get; set; }
 
         Visual RootVisual { get; set; }
 
@@ -21,7 +21,7 @@ namespace JP.Utils.Animation
 
         IAnimator AnimateWith(UIElement uiElement);
 
-        IAnimator For(TimeSpan time);
+        IAnimator For(int timeInMiles);
 
         IAnimator From(float fromValue);
 
