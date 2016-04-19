@@ -8,104 +8,120 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
 
-namespace JP.Utils.Framework
+namespace JP.Utils.InheritingControl
 {
-    //Usage:
-    /*
-    <ListView
-             attach:ListViewReorderItemAttach.UIElementUsedToMove="ReorderElement"
-             ItemsSource="{x:Bind Collection,Mode=OneWay}"
-             ItemContainerStyle="{StaticResource ListViewItemStyle1}">
-             <ListView.ItemTemplate>
-                 <DataTemplate>
-                     <Grid Height="50" Background="#FFECECEC" Margin="5">
-                         <Grid.ColumnDefinitions>
-                             <ColumnDefinition/>
-                             <ColumnDefinition Width="50"/>
-                         </Grid.ColumnDefinitions>
-                         <TextBlock Text="{Binding}" Margin="5" VerticalAlignment="Center"/>
-                         <Grid ManipulationMode="TranslateY" x:Name="ReorderElement" Background="#FF2E2E2E" Grid.Column="1">
-                             <SymbolIcon Foreground="White" Symbol="More"/>
-                         </Grid>
-                     </Grid>
-                 </DataTemplate>
-             </ListView.ItemTemplate>
-         </ListView>
-     */
-    public class ListViewReorderItemAttach
+    public class ListViewEx : ListView
     {
-        public static string GetUIElementUsedToMove(DependencyObject obj)
+        public string StickyHeaderName
         {
-            return (string)obj.GetValue(UIElementUsedToMoveProperty);
+            get { return (string)GetValue(StickyHeaderNameProperty); }
+            set { SetValue(StickyHeaderNameProperty, value); }
         }
 
-        public static void SetUIElementUsedToMove(DependencyObject obj, string value)
+        public static readonly DependencyProperty StickyHeaderNameProperty =
+            DependencyProperty.Register("StickyHeaderName", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
+
+        public string UIElementToMove
         {
-            obj.SetValue(UIElementUsedToMoveProperty, value);
+            get { return (string)GetValue(UIElementToMoveProperty); }
+            set { SetValue(UIElementToMoveProperty, value); }
         }
 
-        public static readonly DependencyProperty UIElementUsedToMoveProperty =
-            DependencyProperty.RegisterAttached("UIElementUsedToMove", typeof(string), typeof(ListViewReorderItemAttach), new PropertyMetadata(null, OnPropertyChanged));
+        public static readonly DependencyProperty UIElementToMoveProperty =
+            DependencyProperty.Register("UIElementToMove", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
 
-        public static bool GetEnableWaggingAnimation(DependencyObject obj)
+        public bool EnableWaggingAnimation
         {
-            return (bool)obj.GetValue(EnableWaggingAnimationProperty);
-        }
-
-        public static void SetEnableWaggingAnimation(DependencyObject obj, bool value)
-        {
-            obj.SetValue(EnableWaggingAnimationProperty, value);
+            get { return (bool)GetValue(EnableWaggingAnimationProperty); }
+            set { SetValue(EnableWaggingAnimationProperty, value); }
         }
 
         public static readonly DependencyProperty EnableWaggingAnimationProperty =
-            DependencyProperty.RegisterAttached("EnableWaggingAnimation", typeof(bool), typeof(ListViewReorderItemAttach), new PropertyMetadata(true,
-                (sender, e) =>
-                {
-                    _enableWaggingAnimation = (bool)e.NewValue;
-                }));
+            DependencyProperty.Register("EnableWaggingAnimation", typeof(bool), typeof(ListViewEx), new PropertyMetadata(false));
 
-        public static Action GetOnReorderStopped(DependencyObject obj)
+        public event Action OnReorderStopped;
+
+        private ScrollViewer _scrollViewer;
+        private Compositor _compositor;
+        private Visual _movingVisual;
+        private int _movingItemIndex;
+        private int _zindex;
+        private bool[] _isItemsAnimated;
+        private double _distanceToTopBeforeMoving = 0f;
+        private double _distanceToTopAfterMoving = 0f;
+        private FrameworkElement _movingItem;
+
+        public ListViewEx()
         {
-            return (Action)obj.GetValue(OnReorderStoppedProperty);
+            this.ContainerContentChanging += this_ContainerContentChanging;
+            this.RegisterPropertyChangedCallback(HeaderProperty, (sender, e) =>
+             {
+                 ((FrameworkElement)Header).SizeChanged += header_SizeChanged;
+             });
         }
 
-        public static void SetOnReorderStopped(DependencyObject obj, Action value)
+        #region Header
+        private void header_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            obj.SetValue(OnReorderStoppedProperty, value);
+            _scrollViewer = this.GetScrollViewer();
+            InitialStickyHeader();
         }
 
-        public static readonly DependencyProperty OnReorderStoppedProperty =
-            DependencyProperty.RegisterAttached("OnReorderStopped", typeof(int), typeof(ListViewReorderItemAttach), new PropertyMetadata(null,
-                (sender,e)=>
-                {
-                    OnReorderStopped = (Action)e.NewValue;
-                }));
-
-        private static ListViewBase _listViewBase;
-        private static ScrollViewer _scrollViewer;
-        private static Compositor _compositor;
-        private static Visual _movingVisual;
-        private static int _movingItemIndex;
-        private static string _thumbName;
-        private static int _zindex;
-        private static bool[] _isItemsAnimated;
-        private static double _distanceToTopBeforeMoving = 0f;
-        private static double _distanceToTopAfterMoving = 0f;
-        private static bool _enableWaggingAnimation = true;
-        private static event Action OnReorderStopped;
-
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void InitialStickyHeader()
         {
-            _listViewBase = d as ListViewBase;
-            _thumbName = e.NewValue as string;
-            _listViewBase.ContainerContentChanging += _listViewBase_ContainerContentChanging;
+            if (_scrollViewer != null && StickyHeaderName != null)
+            {
+                var header = FindHeader();
+
+                //找到 Header 的父容器，设置它的 ZIndex 才能让其在 ListView 的 Items 之上
+                var headerContainer = header.Parent as ContentControl;
+
+                Canvas.SetZIndex(headerContainer, 1);
+
+                var stickyHeader = FindStickyContent();
+
+                if (stickyHeader == null) throw new ArgumentNullException("Make sure you have define x:Name of the UIElement to be sticky.");
+
+                var stickyVisual = ElementCompositionPreview.GetElementVisual(stickyHeader);
+                var compositor = stickyVisual.Compositor;
+
+                //计算 StickyContent 距离 ScrollViewer Content 顶部的纵向距离
+                var transform = stickyHeader.TransformToVisual((UIElement)_scrollViewer.Content);
+                var offsetY = (float)transform.TransformPoint(new Point(0, 0)).Y;
+
+                var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
+
+                //当往下滚动的时候 ScrollingProperties.Translation.Y 不断负向增加，(ScrollingProperties.Translation.Y +OffsetY)
+                //表明 StickyContent 距离顶部还有多少距离，当要滚出屏幕顶部的时候，(-OffsetY - ScrollingProperties.Translation.Y) 
+                //计算还要把 Offset.Y 增加多少才让其 “Sticky“
+                var scrollingAnimation = compositor.CreateExpressionAnimation(
+                    "ScrollingProperties.Translation.Y +OffsetY> 0 ? 0 : -OffsetY - ScrollingProperties.Translation.Y");
+                scrollingAnimation.SetReferenceParameter("ScrollingProperties", scrollProperties);
+                scrollingAnimation.SetScalarParameter("OffsetY", offsetY);
+
+                stickyVisual.StartAnimation("Offset.Y", scrollingAnimation);
+            }
         }
 
-        private static void _listViewBase_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private FrameworkElement FindHeader()
         {
-            _scrollViewer = _listViewBase.GetScrollViewer();
+            return this.Header as FrameworkElement;
+        }
+
+        private FrameworkElement FindStickyContent()
+        {
+            var header = FindHeader();
+            var stickyContent = header.FindName(StickyHeaderName) as FrameworkElement;
+            return stickyContent;
+        }
+
+        #endregion
+
+        #region Reorder
+        private void this_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            _scrollViewer = this.GetScrollViewer();
             var listViewVisual = ElementCompositionPreview.GetElementVisual(sender);
             _compositor = listViewVisual.Compositor;
 
@@ -116,14 +132,14 @@ namespace JP.Utils.Framework
             }
         }
 
-        private static void ItemContainer_Loaded(object sender, RoutedEventArgs e)
+        private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
         {
-            var itemsPanel = (ItemsStackPanel)_listViewBase.ItemsPanelRoot;
+            var itemsPanel = (ItemsStackPanel)this.ItemsPanelRoot;
             var itemContainer = (ListViewItem)sender;
-            var itemIndex = _listViewBase.IndexFromContainer(itemContainer);
+            var itemIndex = this.IndexFromContainer(itemContainer);
 
             var item = itemContainer.ContentTemplateRoot as FrameworkElement;
-            var uielementToReorder = item.FindName(_thumbName) as UIElement;
+            var uielementToReorder = item.FindName(UIElementToMove) as UIElement;
 
             uielementToReorder.ManipulationMode = ManipulationModes.TranslateY;
 
@@ -136,22 +152,22 @@ namespace JP.Utils.Framework
             uielementToReorder.ManipulationCompleted += UIElementToReorder_ManipulationCompleted;
         }
 
-        private static void UIElementToReorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        private void UIElementToReorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             var uiElement = sender as FrameworkElement;
             var rootElement = uiElement.Parent as FrameworkElement;
 
-            var movingItemContainer = _listViewBase.ContainerFromItem(rootElement.DataContext) as UIElement;
-            _movingVisual = ElementCompositionPreview.GetElementVisual(movingItemContainer);
-            _movingItemIndex = _listViewBase.IndexFromContainer(movingItemContainer);
+            _movingItem = this.ContainerFromItem(rootElement.DataContext) as FrameworkElement;
+            _movingVisual = ElementCompositionPreview.GetElementVisual(_movingItem);
+            _movingItemIndex = this.IndexFromContainer(_movingItem);
 
             //Disable transition animation to make the ending smooth.
             DisableTransition();
 
             //The starting position
-            _distanceToTopBeforeMoving = movingItemContainer.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
+            _distanceToTopBeforeMoving = _movingItem.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
 
-            var items = _listViewBase.Items;
+            var items = this.Items;
 
             //Fade out all items
             for (int i = 0; i < items.Count; i++)
@@ -159,7 +175,7 @@ namespace JP.Utils.Framework
                 if (_movingItemIndex == i) continue;
 
                 var item = items[i];
-                var itemContainer = _listViewBase.ContainerFromItem(item) as ListViewItem;
+                var itemContainer = this.ContainerFromItem(item) as ListViewItem;
                 var containerVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
 
                 var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
@@ -168,30 +184,30 @@ namespace JP.Utils.Framework
 
                 containerVisual.StartAnimation("Opacity", fadeAnimation);
 
-                if (_enableWaggingAnimation)
+                if (EnableWaggingAnimation)
                     StartWaggingAnimation(i);
             }
 
-            _isItemsAnimated = new bool[_listViewBase.Items.Count];
+            _isItemsAnimated = new bool[this.Items.Count];
         }
 
-        private static void UIElementToReorder_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void UIElementToReorder_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var uiElement = sender as FrameworkElement;
             var grid = uiElement.Parent as FrameworkElement;
 
             //Make sure it's on top.
-            var currentItem = _listViewBase.ContainerFromItem(grid.DataContext) as FrameworkElement;
+            var currentItem = this.ContainerFromItem(grid.DataContext) as FrameworkElement;
             Canvas.SetZIndex(currentItem, _zindex++);
 
-            var currentIndex = _listViewBase.IndexFromContainer(currentItem);
+            var currentIndex = this.IndexFromContainer(currentItem);
 
             _distanceToTopAfterMoving = currentItem.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
 
             //Move element by dy.
             _movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
 
-            for (int i = 0; i < _listViewBase.Items.Count; i++)
+            for (int i = 0; i < this.Items.Count; i++)
             {
                 if (i == currentIndex) continue;
 
@@ -209,11 +225,11 @@ namespace JP.Utils.Framework
             //}
         }
 
-        private static void UIElementToReorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        private void UIElementToReorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            foreach (var item in _listViewBase.Items)
+            foreach (var item in this.Items)
             {
-                var container = _listViewBase.ContainerFromItem(item) as ListViewItem;
+                var container = this.ContainerFromItem(item) as ListViewItem;
                 var containerVisual = ElementCompositionPreview.GetElementVisual(container);
 
                 var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
@@ -225,13 +241,13 @@ namespace JP.Utils.Framework
                 containerVisual.StopAnimation("Offset.Y");
             }
 
-            var indexToInsert = (int)Math.Floor(_distanceToTopAfterMoving / 50);
+            var indexToInsert = (int)Math.Floor(_distanceToTopAfterMoving / _movingItem.ActualHeight);
             if (indexToInsert < 0) indexToInsert = 0;
-            if (indexToInsert >= _listViewBase.Items.Count) indexToInsert = _listViewBase.Items.Count - 1;
+            if (indexToInsert >= this.Items.Count) indexToInsert = this.Items.Count - 1;
 
             //Now move item from ItemsSource 
             //Moving from Items property will cause an exception.
-            var collection = _listViewBase.ItemsSource as IList;
+            var collection = this.ItemsSource as IList;
             if (collection == null) throw new ArgumentNullException("The ItemsSource should inherit from IList.");
 
             var movingItem = collection[_movingItemIndex];
@@ -241,9 +257,9 @@ namespace JP.Utils.Framework
             OnReorderStopped?.Invoke();
         }
 
-        private static void AnimateItemOffset(int itemIndex)
+        private void AnimateItemOffset(int itemIndex)
         {
-            var item = _listViewBase.ContainerFromIndex(itemIndex) as FrameworkElement;
+            var item = this.ContainerFromIndex(itemIndex) as FrameworkElement;
             var itemVisual = ElementCompositionPreview.GetElementVisual(item);
             var offsetYToTop = (float)(item.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0))).Y;
 
@@ -282,17 +298,17 @@ namespace JP.Utils.Framework
                 batch.Completed += (sender, e) =>
                 {
                     _isItemsAnimated[itemIndex] = false;
-                    if (_enableWaggingAnimation)
+                    if (EnableWaggingAnimation)
                         StartWaggingAnimation(itemIndex);
                 };
                 batch.End();
             }
         }
 
-        private static void StartWaggingAnimation(int i)
+        private void StartWaggingAnimation(int i)
         {
-            var item = _listViewBase.Items[i];
-            var itemContainer = _listViewBase.ContainerFromItem(item) as ListViewItem;
+            var item = this.Items[i];
+            var itemContainer = this.ContainerFromItem(item) as ListViewItem;
             var containerVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
 
             var random = new Random((int)DateTime.Now.Ticks).Next();
@@ -308,9 +324,10 @@ namespace JP.Utils.Framework
             containerVisual.StartAnimation("Offset.Y", offsetAnimation);
         }
 
-        private static void DisableTransition()
+        private void DisableTransition()
         {
-            _listViewBase.ItemContainerTransitions = null;
+            this.ItemContainerTransitions = null;
         }
+        #endregion
     }
 }

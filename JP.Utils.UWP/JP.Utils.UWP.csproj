@@ -147,6 +147,7 @@
     <Compile Include="Global\GlobalFunc.cs" />
     <Compile Include="Image\BitmapImageHelper.cs" />
     <Compile Include="Image\ImageHandleHelper.cs" />
+    <Compile Include="InheritingControl\ListViewEx.cs" />
     <Compile Include="Network\APIHelper.cs" />
     <Compile Include="Network\CommonRespMsg.cs" />
     <Compile Include="Network\DateTimeHelper.cs" />
