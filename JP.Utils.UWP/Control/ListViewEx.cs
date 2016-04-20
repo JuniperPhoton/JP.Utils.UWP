@@ -135,6 +135,8 @@ namespace JP.Utils.Control
 
         private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
         {
+            if (ReorderUIElementName == null) return;
+
             var itemsPanel = (ItemsStackPanel)this.ItemsPanelRoot;
             var itemContainer = (ListViewItem)sender;
             var itemIndex = this.IndexFromContainer(itemContainer);
