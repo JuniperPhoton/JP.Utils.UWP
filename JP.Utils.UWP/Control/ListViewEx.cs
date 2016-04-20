@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 
-namespace JP.Utils.InheritingControl
+namespace JP.Utils.Control
 {
     public class ListViewEx : ListView
     {
@@ -22,14 +22,14 @@ namespace JP.Utils.InheritingControl
         public static readonly DependencyProperty StickyHeaderNameProperty =
             DependencyProperty.Register("StickyHeaderName", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
 
-        public string UIElementToMove
+        public string ReorderUIElementName
         {
-            get { return (string)GetValue(UIElementToMoveProperty); }
-            set { SetValue(UIElementToMoveProperty, value); }
+            get { return (string)GetValue(ReorderUIElementNameProperty); }
+            set { SetValue(ReorderUIElementNameProperty, value); }
         }
 
-        public static readonly DependencyProperty UIElementToMoveProperty =
-            DependencyProperty.Register("UIElementToMove", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
+        public static readonly DependencyProperty ReorderUIElementNameProperty =
+            DependencyProperty.Register("ReorderUIElementName", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
 
         public bool EnableWaggingAnimation
         {
@@ -38,7 +38,7 @@ namespace JP.Utils.InheritingControl
         }
 
         public static readonly DependencyProperty EnableWaggingAnimationProperty =
-            DependencyProperty.Register("EnableWaggingAnimation", typeof(bool), typeof(ListViewEx), new PropertyMetadata(false));
+            DependencyProperty.Register("EnableWaggingAnimation", typeof(bool), typeof(ListViewEx), new PropertyMetadata(true));
 
         public event Action OnReorderStopped;
 
@@ -50,6 +50,7 @@ namespace JP.Utils.InheritingControl
         private bool[] _isItemsAnimated;
         private double _distanceToTopBeforeMoving = 0f;
         private double _distanceToTopAfterMoving = 0f;
+        private double _secondItemDistanceToTop = 0f;
         private FrameworkElement _movingItem;
 
         public ListViewEx()
@@ -139,17 +140,19 @@ namespace JP.Utils.InheritingControl
             var itemIndex = this.IndexFromContainer(itemContainer);
 
             var item = itemContainer.ContentTemplateRoot as FrameworkElement;
-            var uielementToReorder = item.FindName(UIElementToMove) as UIElement;
+            var elementToReorder = item.FindName(ReorderUIElementName) as UIElement;
 
-            uielementToReorder.ManipulationMode = ManipulationModes.TranslateY;
+            if (elementToReorder == null) throw new ArgumentNullException($"Can find the the UIElement(named {ReorderUIElementName} used to be maniputed.");
 
-            uielementToReorder.ManipulationStarted -= UIElementToReorder_ManipulationStarted;
-            uielementToReorder.ManipulationDelta -= UIElementToReorder_ManipulationDelta;
-            uielementToReorder.ManipulationCompleted -= UIElementToReorder_ManipulationCompleted;
+            elementToReorder.ManipulationMode = ManipulationModes.TranslateY;
 
-            uielementToReorder.ManipulationStarted += UIElementToReorder_ManipulationStarted;
-            uielementToReorder.ManipulationDelta += UIElementToReorder_ManipulationDelta;
-            uielementToReorder.ManipulationCompleted += UIElementToReorder_ManipulationCompleted;
+            elementToReorder.ManipulationStarted -= UIElementToReorder_ManipulationStarted;
+            elementToReorder.ManipulationDelta -= UIElementToReorder_ManipulationDelta;
+            elementToReorder.ManipulationCompleted -= UIElementToReorder_ManipulationCompleted;
+
+            elementToReorder.ManipulationStarted += UIElementToReorder_ManipulationStarted;
+            elementToReorder.ManipulationDelta += UIElementToReorder_ManipulationDelta;
+            elementToReorder.ManipulationCompleted += UIElementToReorder_ManipulationCompleted;
         }
 
         private void UIElementToReorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -160,6 +163,9 @@ namespace JP.Utils.InheritingControl
             _movingItem = this.ContainerFromItem(rootElement.DataContext) as FrameworkElement;
             _movingVisual = ElementCompositionPreview.GetElementVisual(_movingItem);
             _movingItemIndex = this.IndexFromContainer(_movingItem);
+
+            _secondItemDistanceToTop = (ContainerFromIndex(1) as FrameworkElement).
+                            TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
 
             //Disable transition animation to make the ending smooth.
             DisableTransition();
@@ -216,12 +222,11 @@ namespace JP.Utils.InheritingControl
             }
 
             //TODO: Scroll the ScrollViewer while the moving item is about to exit the visible area.
-
-            //var pointToSV = container.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0));
-            //if (pointToSV.Y + visual.Offset.Y + 200 > _scrollViewer.ActualHeight)
+            //if (_distanceToTopAfterMoving + _movingVisual.Offset.Y + 20 > _scrollViewer.ActualHeight)
             //{
             //    var scrollViewerY = _scrollViewer.VerticalOffset;
-            //    _scrollViewer.ChangeView(null, 10 + scrollViewerY, null);
+            //    _scrollViewer.ChangeView(null, e.Delta.Translation.Y + scrollViewerY, null);
+            //    _movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
             //}
         }
 
@@ -241,7 +246,7 @@ namespace JP.Utils.InheritingControl
                 containerVisual.StopAnimation("Offset.Y");
             }
 
-            var indexToInsert = (int)Math.Floor(_distanceToTopAfterMoving / _movingItem.ActualHeight);
+            var indexToInsert = (int)Math.Floor((_distanceToTopAfterMoving+_movingItem.ActualHeight/2) / _secondItemDistanceToTop);
             if (indexToInsert < 0) indexToInsert = 0;
             if (indexToInsert >= this.Items.Count) indexToInsert = this.Items.Count - 1;
 
@@ -262,21 +267,25 @@ namespace JP.Utils.InheritingControl
             var item = this.ContainerFromIndex(itemIndex) as FrameworkElement;
             var itemVisual = ElementCompositionPreview.GetElementVisual(item);
             var offsetYToTop = (float)(item.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0))).Y;
-
+            if(EnableWaggingAnimation)
+            {
+                offsetYToTop -= (itemVisual.Offset.Y % 10);
+            }
+            
             var targetOffsetY = 0f;
             if (_distanceToTopAfterMoving > _distanceToTopBeforeMoving)
             {
-                if (offsetYToTop > _distanceToTopBeforeMoving && offsetYToTop < _distanceToTopAfterMoving)
+                if (offsetYToTop >= _distanceToTopBeforeMoving && offsetYToTop <= _distanceToTopAfterMoving)
                 {
-                    targetOffsetY = -50f;
+                    targetOffsetY = (float)-item.ActualHeight;
                 }
                 else targetOffsetY = 0f;
             }
             else
             {
-                if (offsetYToTop > _distanceToTopAfterMoving && offsetYToTop < _distanceToTopBeforeMoving)
+                if (offsetYToTop >= _distanceToTopAfterMoving && offsetYToTop <= _distanceToTopBeforeMoving)
                 {
-                    targetOffsetY = 50f;
+                    targetOffsetY = (float)item.ActualHeight;
                 }
                 else targetOffsetY = 0f;
             }
