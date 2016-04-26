@@ -121,6 +121,7 @@
     <Compile Include="CompositionAPI\EasingFuncFactory.cs" />
     <Compile Include="CustomControl\ContentPopupEx\ContentPopupEx.cs" />
     <Compile Include="CustomControl\ContentPopupEx\PopupService.cs" />
+    <Compile Include="CustomControl\Shadow\Shadow.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\Constrain.cs" />
     <Compile Include="Data\DeepCopier.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Framework\ListViewBaseCommandEx.cs" />
     <Compile Include="Framework\ListViewStickyHeader.cs" />
     <Compile Include="Framework\UIElementTapCommand.cs" />
+    <Compile Include="Functions\DateTimeUtil.cs" />
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Global\GlobalFunc.cs" />
     <Compile Include="Image\BitmapImageHelper.cs" />

@@ -18,11 +18,13 @@ namespace JP.Utils.Functions
             var timeDiff=time1.Subtract(time2);
             return timeDiff;
         }
+
         public static bool IsValidEmail(string strIn)
         {
             // Return true if strIn is in valid e-mail format. 
             return Regex.IsMatch(strIn, @"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
         }
+
         public static string UrlEncode(this string str)
         {
             return WebUtility.UrlEncode(str);
