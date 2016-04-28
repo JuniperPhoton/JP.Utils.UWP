@@ -106,7 +106,7 @@ namespace JP.API
             return await SendRequest(request,token);
         }
 
-        private static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request,CancellationToken token)
+        public static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request,CancellationToken token)
         {
             var msgToReturn = new CommonRespMsg();
             try

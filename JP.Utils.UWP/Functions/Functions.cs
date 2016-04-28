@@ -4,8 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -13,6 +11,13 @@ namespace JP.Utils.Functions
 {
     public static class Functions
     {
+        public static bool IsHasCHZN(string inputString)
+        {
+            var RegCHZN = new Regex("[\\u4e00-\\u9fa5]");
+            var m = RegCHZN.Match(inputString);
+            return m.Success;
+        }
+
         public static TimeSpan CalculateTimeDiff(this DateTime time1,DateTime time2)
         {
             var timeDiff=time1.Subtract(time2);
