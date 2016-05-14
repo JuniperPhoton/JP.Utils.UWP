@@ -46,7 +46,6 @@ namespace JP.Utils.Data
                 var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), "SerializerToJson<T>");
                 return false;
             }
-
         }
 
         /// <summary>
