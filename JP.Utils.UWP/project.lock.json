@@ -15837,12 +15837,11 @@
       ]
     },
     "UmengAnalytics/3.1.0": {
-      "sha512": "zTkbAgLvGEobpAvSnEEuHc6RWX8stjB5GHdBQHA9O1ovcyxxuClL5/alcm1Og+RIEy+V4nvCfFerHXymGEf5Sw==",
-      "type": "Package",
+      "sha512": "v9JXO5La8JfAQHZmtzBptzKjOWMMkhmv7/M4xGlmtWa/LsW3BKNU9lTDVK3wp66KIAWnTKjdskLjh4Biy2hlKg==",
+      "type": "package",
       "files": [
+        "UmengAnalytics.3.1.0.nupkg.sha512",
         "UmengAnalytics.nuspec",
-        "[Content_Types].xml",
-        "_rels/.rels",
         "content/_._",
         "lib/netcore45/UmengAnalyticsWinRT.dll",
         "lib/netcore451/UmengAnalyticsUniversal.dll",
@@ -15850,8 +15849,7 @@
         "lib/sl4-wp71/UmengAnalyticsWP7.dll",
         "lib/wp8/UmengAnalyticsWP8.dll",
         "lib/wp81/UmengAnalyticsWP8.dll",
-        "lib/wpa81/UmengAnalyticsUniversal.dll",
-        "package/services/metadata/core-properties/9bf85c6dc2e1428999cae179b9ea0991.psmdcp"
+        "lib/wpa81/UmengAnalyticsUniversal.dll"
       ]
     },
     "Win2D.uwp/1.16.0": {
