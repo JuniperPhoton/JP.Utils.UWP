@@ -35,7 +35,7 @@ namespace JP.Utils.Network
                 token.ThrowIfCancellationRequested();
 
                 var stream = await streamTask;
-                
+
                 return stream.AsRandomAccessStream();
             }
         }

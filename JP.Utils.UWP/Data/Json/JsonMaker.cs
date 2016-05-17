@@ -16,10 +16,10 @@ namespace JP.Utils.Data.Json
         /// <param name="propertyValue">属性值</param>
         /// <param name="isString">本身是否作为 Json 的一个字符串值，默认为 false。设置true 后，所有\都会被转义</param>
         /// <returns></returns>
-        public static string MakeJsonObj(string propertyName,string propertyValue,bool isString=false)
+        public static string MakeJsonObj(string propertyName, string propertyValue, bool isString = false)
         {
             string str;
-            if(isString)
+            if (isString)
             {
                 str = string.Format("\\\"{0}\\\":\\\"{1}\\\"", propertyName, propertyValue);
             }
@@ -34,10 +34,10 @@ namespace JP.Utils.Data.Json
         /// <param name="propertyName">属性名字</param>
         /// <param name="propertyValue">属性值</param>
         /// <returns></returns>
-        public static string MakeJsonObj(string propertyName, int propertyValue,bool isString= false)
+        public static string MakeJsonObj(string propertyName, int propertyValue, bool isString = false)
         {
             string str;
-            if(isString)
+            if (isString)
             {
                 str = string.Format("\\\"{0}\\\":{1}", propertyName, propertyValue);
             }
@@ -69,9 +69,9 @@ namespace JP.Utils.Data.Json
             string str;
             if (isString)
             {
-                str = string.Format("\\\"{0}\\\":{1}", propertyName, propertyValue?"true":"false");
+                str = string.Format("\\\"{0}\\\":{1}", propertyName, propertyValue ? "true" : "false");
             }
-            else str = string.Format("\"{0}\":{1}", propertyName, propertyValue? "true" : "false");
+            else str = string.Format("\"{0}\":{1}", propertyName, propertyValue ? "true" : "false");
 
             return str;
         }
@@ -97,10 +97,10 @@ namespace JP.Utils.Data.Json
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
-            for(int i=0;i<objArray.Count;i++)
+            for (int i = 0; i < objArray.Count; i++)
             {
                 sb.Append(objArray[i]);
-                if(i!=objArray.Count - 1)
+                if (i != objArray.Count - 1)
                 {
                     sb.Append(",");
                 }

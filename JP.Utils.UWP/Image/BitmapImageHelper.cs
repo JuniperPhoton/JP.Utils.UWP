@@ -15,7 +15,7 @@ namespace ChaoFunctionRT
         /// <param name="sourceStream">包含图片数据的数据流</param>
         /// <param name="scaleLong">如果图片长大于宽，那么此为改编后的长度，反之是改变后的高度</param>
         /// <returns></returns>
-        public static async Task<IRandomAccessStream> ResizeImage(IRandomAccessStream sourceStream,uint scaleLong)
+        public static async Task<IRandomAccessStream> ResizeImage(IRandomAccessStream sourceStream, uint scaleLong)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace ChaoFunctionRT
 
                 return destStream;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 var task = ExceptionHelper.WriteRecordAsync(e, nameof(BitmapHandleHelper), nameof(ResizeImage));
                 return null;
@@ -82,14 +82,14 @@ namespace ChaoFunctionRT
         /// <param name="expWidth">期望的宽度</param>
         /// <param name="expHeight">期望的高度</param>
         /// <returns></returns>
-        public static async Task<IRandomAccessStream> ResizeImageHard(IRandomAccessStream sourceStream, uint expWidth,uint expHeight)
+        public static async Task<IRandomAccessStream> ResizeImageHard(IRandomAccessStream sourceStream, uint expWidth, uint expHeight)
         {
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream);
             uint height = decoder.PixelHeight;
             uint weight = decoder.PixelWidth;
 
             uint destHeight = height > expHeight ? expHeight : height;
-            uint destWeight = weight> expWidth? expWidth : weight;
+            uint destWeight = weight > expWidth ? expWidth : weight;
 
             BitmapTransform transform = new BitmapTransform()
             {

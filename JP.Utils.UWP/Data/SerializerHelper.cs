@@ -19,7 +19,7 @@ namespace JP.Utils.Data
         /// <typeparam name="T">需要序列化的类的类型</typeparam>
         /// <param name="objectToBeSer">被序列化的对象</param>
         /// <param name="fileName">要保存到独立储存的文件名</param>
-        public async static Task<bool> SerializerToJson<T>(object objectToBeSer, string fileName,StorageFolder defaultFolder=null, bool isReplace=true)
+        public async static Task<bool> SerializerToJson<T>(object objectToBeSer, string fileName, StorageFolder defaultFolder = null, bool isReplace = true)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace JP.Utils.Data
                 }
 
                 StorageFolder folder = defaultFolder;
-                if(folder== null)
+                if (folder == null)
                 {
                     folder = ApplicationData.Current.LocalFolder;
                 }
@@ -68,7 +68,7 @@ namespace JP.Utils.Data
 
                 return DeSerializeFromJsonStr<T>(jsonString);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return default(T);
             }
@@ -88,8 +88,9 @@ namespace JP.Utils.Data
                 }
                 else return default(T);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), nameof(DeserializeFromJsonByFileName));
                 return default(T);
             }
         }
@@ -155,7 +156,5 @@ namespace JP.Utils.Data
             }
             return result;
         }
-
-
     }
 }

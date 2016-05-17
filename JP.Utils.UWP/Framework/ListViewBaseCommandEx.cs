@@ -27,7 +27,7 @@ namespace JP.Utils.Framework
         private static void OnGridTappedCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ListViewBase currentBase = null;
-            if(d is ListView)
+            if (d is ListView)
             {
                 currentBase = d as ListView;
             }
@@ -43,7 +43,7 @@ namespace JP.Utils.Framework
         private static void Control_ItemClick(object sender, ItemClickEventArgs e)
         {
             ListViewBase currentBase = null;
-            if(sender is ListView)
+            if (sender is ListView)
             {
                 currentBase = sender as ListView;
             }
@@ -54,7 +54,7 @@ namespace JP.Utils.Framework
             if (currentBase != null)
             {
                 var command = GetItemClickCommand(currentBase);
-                
+
                 var paramter = e.ClickedItem;
 
                 object obj = null;

@@ -114,7 +114,6 @@
     <Compile Include="Animation\IAnimator\IAnimator.cs" />
     <Compile Include="Animation\IAnimator\MoveAnimator.cs" />
     <Compile Include="Application\ApplicationPackageManager.cs" />
-    <Compile Include="Application\BackgroundTaskHelper.cs" />
     <Compile Include="Application\ContactHelper.cs" />
     <Compile Include="Application\SuspensionManager.cs" />
     <Compile Include="CompositionAPI\CompositionAPIUtil.cs" />
@@ -123,18 +122,17 @@
     <Compile Include="CustomControl\ContentPopupEx\PopupService.cs" />
     <Compile Include="CustomControl\Shadow\Shadow.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />
-    <Compile Include="Data\Constrain.cs" />
     <Compile Include="Data\DeepCopier.cs" />
     <Compile Include="Data\ExtMethods.cs" />
-    <Compile Include="Data\FileHelper.cs" />
+    <Compile Include="Data\FileIOHelper.cs" />
     <Compile Include="Data\ICollectionExtension.cs" />
     <Compile Include="Data\Json\JsonMaker.cs" />
     <Compile Include="Data\Json\JsonParser.cs" />
     <Compile Include="Data\LocalSettingHelper.cs" />
     <Compile Include="Data\SerializerHelper.cs" />
-    <Compile Include="Data\StorageFileHandleHelper.cs" />
+    <Compile Include="Data\StorageFileExtension.cs" />
     <Compile Include="Debug\ExceptionHelper.cs" />
-    <Compile Include="Device\ApiInformationHelper.cs" />
+    <Compile Include="Device\APIInfoHelper.cs" />
     <Compile Include="Device\DeviceHelper.cs" />
     <Compile Include="Device\PhoneNameResolver.cs" />
     <Compile Include="Exception\APIException.cs" />
@@ -143,7 +141,7 @@
     <Compile Include="Framework\ListViewBaseCommandEx.cs" />
     <Compile Include="Framework\ListViewStickyHeader.cs" />
     <Compile Include="Framework\UIElementTapCommand.cs" />
-    <Compile Include="Functions\DateTimeUtil.cs" />
+    <Compile Include="Functions\DateTimeExtension.cs" />
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Global\GlobalFunc.cs" />
     <Compile Include="Image\BitmapImageHelper.cs" />
@@ -165,7 +163,7 @@
     <Compile Include="UI\ColorConverter.cs" />
     <Compile Include="UI\ListViewScrollExtension.cs" />
     <Compile Include="Framework\ScrollViewerStyleChanger.cs" />
-    <Compile Include="UI\ScrollViewExtensions.cs" />
+    <Compile Include="UI\ScrollViewExtension.cs" />
     <Content Include="NotificationsExtensions.dll" />
     <Content Include="Properties\JP.Utils.UWP.rd.xml" />
   </ItemGroup>

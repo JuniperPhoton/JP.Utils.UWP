@@ -34,7 +34,7 @@ namespace JP.Utils.Framework
             {
                 currentBase.Tapped += Control_ItemTap;
             }
-            
+
         }
 
         private static void Control_ItemTap(object sender, TappedRoutedEventArgs e)
@@ -45,11 +45,11 @@ namespace JP.Utils.Framework
             {
                 var command = GetItemTapCommand(currentBase);
 
-                if (command != null )
+                if (command != null)
                     command.Execute(currentBase);
             }
         }
 
-       
+
     }
 }

@@ -12,7 +12,7 @@ namespace JP.Utils.Data.Json
         /// <param name="obj"></param>
         /// <param name="propertyName"></param>
         /// <returns></returns>
-        public static string GetStringFromJsonObj(IJsonValue obj,string propertyName,string defaultValue=null)
+        public static string GetStringFromJsonObj(IJsonValue obj, string propertyName, string defaultValue = null)
         {
             try
             {
@@ -30,13 +30,13 @@ namespace JP.Utils.Data.Json
                 }
                 else throw new Exception();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return defaultValue;
             }
         }
 
-        public static double GetNumberFromJsonObj(IJsonValue obj, string propertyName,double defaultValue=0)
+        public static double GetNumberFromJsonObj(IJsonValue obj, string propertyName, double defaultValue = 0)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace JP.Utils.Data.Json
             }
         }
 
-        public static bool GetBooleanFromJsonObj(IJsonValue obj, string propertyName,bool defaultValue = false)
+        public static bool GetBooleanFromJsonObj(IJsonValue obj, string propertyName, bool defaultValue = false)
         {
             try
             {
@@ -72,13 +72,13 @@ namespace JP.Utils.Data.Json
             }
         }
 
-        public static JsonArray GetJsonArrayFromJsonObj(IJsonValue obj,string propertyName)
+        public static JsonArray GetJsonArrayFromJsonObj(IJsonValue obj, string propertyName)
         {
             try
             {
                 return obj.GetObject()[propertyName].GetArray();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }

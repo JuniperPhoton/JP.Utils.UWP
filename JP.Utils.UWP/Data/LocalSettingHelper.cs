@@ -21,11 +21,11 @@ namespace JP.Utils.Data
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public static bool AddValue(string key, string value,bool isCheckExist=false)
+        public static bool AddValue(string key, string value, bool isCheckExist = false)
         {
-            if(isCheckExist)
+            if (isCheckExist)
             {
-                if(LocalSettings.Values.ContainsKey(key))
+                if (LocalSettings.Values.ContainsKey(key))
                 {
                     return false;
                 }
@@ -34,7 +34,7 @@ namespace JP.Utils.Data
             return true;
         }
 
-        public static bool AddValue(string key, bool value,bool isCheckExist=false)
+        public static bool AddValue(string key, bool value, bool isCheckExist = false)
         {
             if (isCheckExist)
             {

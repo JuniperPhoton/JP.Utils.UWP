@@ -44,7 +44,7 @@ namespace JP.Utils.Network
                 {
                     var isAvailable = false;
                     var profile = NetworkInformation.GetInternetConnectionProfile();
-                    if (profile!= null)
+                    if (profile != null)
                     {
                         isAvailable = profile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
                     }

@@ -8,7 +8,7 @@ namespace JP.UWP.CustomControl
 
         public static void TryHideCPEX()
         {
-            if(CurrentShownCPEX!= null)
+            if (CurrentShownCPEX != null)
             {
                 CurrentShownCPEX.Hide();
             }

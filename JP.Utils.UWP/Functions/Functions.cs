@@ -18,9 +18,9 @@ namespace JP.Utils.Functions
             return m.Success;
         }
 
-        public static TimeSpan CalculateTimeDiff(this DateTime time1,DateTime time2)
+        public static TimeSpan CalculateTimeDiff(this DateTime time1, DateTime time2)
         {
-            var timeDiff=time1.Subtract(time2);
+            var timeDiff = time1.Subtract(time2);
             return timeDiff;
         }
 
@@ -35,17 +35,17 @@ namespace JP.Utils.Functions
             return WebUtility.UrlEncode(str);
         }
 
-        public static void TryAdd(this Dictionary<string,string> dic,string key,string value)
+        public static void TryAdd(this Dictionary<string, string> dic, string key, string value)
         {
             try
             {
-                if(dic.ContainsKey(key))
+                if (dic.ContainsKey(key))
                 {
                     dic[key] = value;
                 }
                 else dic.Add(key, value);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }

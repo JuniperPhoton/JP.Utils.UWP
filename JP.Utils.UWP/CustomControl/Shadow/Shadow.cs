@@ -18,7 +18,7 @@ using Windows.Graphics.Display;
 namespace JP.UWP.CustomControl
 {
     [ContentProperty(Name = nameof(Content))]
-    public class Shadow :  Windows.UI.Xaml.Controls.Control
+    public class Shadow : Windows.UI.Xaml.Controls.Control
     {
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register(nameof(Color), typeof(Color), typeof(Shadow), new PropertyMetadata(Colors.Black));
 
@@ -205,11 +205,11 @@ namespace JP.UWP.CustomControl
                         this._pixelHeight = pixelHeight;
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
 
                 }
-                
+
             }
 
             if (this._canvas != null)

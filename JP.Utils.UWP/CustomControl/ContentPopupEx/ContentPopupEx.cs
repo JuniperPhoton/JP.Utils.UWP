@@ -65,7 +65,7 @@ namespace JP.UWP.CustomControl
             CurrentPage.SizeChanged += Page_SizeChanged;
         }
 
-        public ContentPopupEx(FrameworkElement element,LayoutEnum layout=LayoutEnum.Center) : this()
+        public ContentPopupEx(FrameworkElement element, LayoutEnum layout = LayoutEnum.Center) : this()
         {
             this._rootFramework = element;
             this._layout = layout;
@@ -76,12 +76,12 @@ namespace JP.UWP.CustomControl
             base.OnApplyTemplate();
             _rootGrid = GetTemplateChild("RootGrid") as Grid;
             _contentGrid = GetTemplateChild("ContentGrid") as Grid;
-            if(_layout==LayoutEnum.Stretch)
+            if (_layout == LayoutEnum.Stretch)
             {
                 _contentGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _contentGrid.VerticalAlignment = VerticalAlignment.Stretch;
             }
-            else if(_layout==LayoutEnum.Bottom)
+            else if (_layout == LayoutEnum.Bottom)
             {
                 _contentGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _contentGrid.VerticalAlignment = VerticalAlignment.Bottom;
@@ -90,7 +90,7 @@ namespace JP.UWP.CustomControl
             _inStory = _rootGrid.Resources["InStory"] as Storyboard;
             _outStory = _rootGrid.Resources["OutStory"] as Storyboard;
             _maskBorder = GetTemplateChild("MaskBorder") as Border;
-            _outStory.Completed += ((sender,e)=>
+            _outStory.Completed += ((sender, e) =>
             {
                 _currentPopup.IsOpen = false;
             });
@@ -123,7 +123,7 @@ namespace JP.UWP.CustomControl
             UpdateCurrentLayout();
             _maskBorder.Visibility = Visibility.Visible;
             _isOpen = true;
-            if(PlayPopupAnim)
+            if (PlayPopupAnim)
                 _inStory.Begin();
         }
 

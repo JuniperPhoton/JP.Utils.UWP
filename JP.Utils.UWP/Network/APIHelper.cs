@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace JP.API
 {
-    //About to be deprecated.
+    [Obsolete("Please use HttpRequestSender instead.")]
     public static class APIHelper
     {
         /// <summary>
@@ -34,10 +34,10 @@ namespace JP.API
 
                     var buffer = await response.Content.ReadAsBufferAsync();
                     var streamImage = buffer.AsStream();
-                    
+
                     return streamImage.AsRandomAccessStream();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     return null;
                 }
@@ -50,14 +50,14 @@ namespace JP.API
         /// <typeparam name="T">返回的对象</typeparam>
         /// <param name="url">URL</param>
         /// <returns></returns>
-        public static async Task<CommonRespMsg> SendGetRequestAsync(string url,CancellationToken token)
+        public static async Task<CommonRespMsg> SendGetRequestAsync(string url, CancellationToken token)
         {
             try
             {
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
-                return await SendRequest(request,token);
+                return await SendRequest(request, token);
             }
-            catch(TaskCanceledException e)
+            catch (TaskCanceledException e)
             {
                 throw e;
             }
@@ -74,20 +74,20 @@ namespace JP.API
         /// <param name="url">URL</param>
         /// <param name="paras">POST 参数</param>
         /// <returns></returns>
-        public static async Task<CommonRespMsg> SendPostRequestAsync(string url, List<KeyValuePair<string, string>> paras,CancellationToken token)
+        public static async Task<CommonRespMsg> SendPostRequestAsync(string url, List<KeyValuePair<string, string>> paras, CancellationToken token)
         {
             try
             {
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Content = new HttpFormUrlEncodedContent(paras);
 
-                return await SendRequest(request,token);
+                return await SendRequest(request, token);
             }
-            catch(TaskCanceledException ex)
+            catch (TaskCanceledException ex)
             {
                 throw ex;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = ex.Message };
             }
@@ -104,21 +104,21 @@ namespace JP.API
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
             request.Content = new HttpStringContent(paramsInRaw);
-            return await SendRequest(request,token);
+            return await SendRequest(request, token);
         }
 
-        public static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request,CancellationToken token)
+        public static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request, CancellationToken token)
         {
             var msgToReturn = new CommonRespMsg();
             try
-            {                
+            {
                 using (var client = new HttpClient())
                 {
                     //client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; XT1085 Build/LPE23.32-53) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
                     HttpResponseMessage resp = null;
-                    if(token== null)
+                    if (token == null)
                     {
-                        resp=await client.SendRequestAsync(request);
+                        resp = await client.SendRequestAsync(request);
                     }
                     else resp = await client.SendRequestAsync(request).AsTask(token);
                     resp.EnsureSuccessStatusCode();
@@ -147,11 +147,11 @@ namespace JP.API
                     resp.Dispose();
                 }
             }
-            catch(TaskCanceledException e)
+            catch (TaskCanceledException e)
             {
                 throw e;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 msgToReturn.IsSuccessful = false;
                 msgToReturn.ExtraErrorMsg += e.Message;

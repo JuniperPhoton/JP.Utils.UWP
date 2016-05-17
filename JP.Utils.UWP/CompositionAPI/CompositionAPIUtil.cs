@@ -45,11 +45,11 @@ namespace JP.Utils.CompositionAPI
         public static void ScaleToValue(this UIElement element, Vector3 scale)
         {
             var rootVisual = element.GetElementVisual();
-            rootVisual.CenterPoint = new Vector3(0.5f,0.5f, 1f);
+            rootVisual.CenterPoint = new Vector3(0.5f, 0.5f, 1f);
             element.GetElementVisual().Scale = scale;
         }
 
-        public static void FadeElement(this UIElement element,float from,float to,int durationInMiles)
+        public static void FadeElement(this UIElement element, float from, float to, int durationInMiles)
         {
             var rootVisual = element.GetElementVisual();
             var compositor = rootVisual.Compositor;

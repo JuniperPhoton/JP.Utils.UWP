@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 
 namespace JP.CustomTriggers
 {
-    public class BoolTypeTrigger: StateTriggerBase
+    public class BoolTypeTrigger : StateTriggerBase
     {
         private bool _boolValue;
         public bool BoolValue
@@ -18,7 +18,7 @@ namespace JP.CustomTriggers
             }
             set
             {
-                if(_boolValue!=value)
+                if (_boolValue != value)
                 {
                     _boolValue = value;
                     UpdateTrigger();

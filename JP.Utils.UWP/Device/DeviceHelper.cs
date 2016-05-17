@@ -79,7 +79,7 @@ namespace JP.Utils.Helper
             ulong v2 = (v & 0x0000FFFF00000000L) >> 32;
             ulong v3 = (v & 0x00000000FFFF0000L) >> 16;
             ulong v4 = (v & 0x000000000000FFFFL);
-            return new string[] { v1.ToString(),v2.ToString(),v3.ToString(),v4.ToString()};
+            return new string[] { v1.ToString(), v2.ToString(), v3.ToString(), v4.ToString() };
         }
 
         public static string OSVersion

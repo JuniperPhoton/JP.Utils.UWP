@@ -71,11 +71,11 @@ namespace JP.Utils.Network
         private const byte S43 = 15;
         private const byte S44 = 21;
         static private byte[] PADDING = new byte[] {
-              0x80, 0, 0, 0, 0, 0, 
+              0x80, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 
+              0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 
+              0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
              };
         #endregion

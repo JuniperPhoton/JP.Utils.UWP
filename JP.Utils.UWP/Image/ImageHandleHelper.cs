@@ -62,22 +62,22 @@ namespace JP.Utils.Image
         public static async Task DeleteTempFile()
         {
             var folder = await ApplicationData.Current.TemporaryFolder.GetFolderAsync("temp");
-            if(folder!=null)
+            if (folder != null)
             {
                 await folder.DeleteAsync();
             }
         }
 
-        public static async Task<StorageFile> CompressImageAsync(StorageFile fileToHandle,uint scaledLong)
+        public static async Task<StorageFile> CompressImageAsync(StorageFile fileToHandle, uint scaledLong)
         {
             using (var fileStream = await fileToHandle.OpenAsync(FileAccessMode.Read))
             {
                 Guid guid;
-                if(fileToHandle.FileType.Contains("jpg"))
+                if (fileToHandle.FileType.Contains("jpg"))
                 {
                     guid = BitmapEncoder.JpegEncoderId;
                 }
-                else if(fileToHandle.FileType.Contains("png"))
+                else if (fileToHandle.FileType.Contains("png"))
                 {
                     guid = BitmapEncoder.PngEncoderId;
                 }
@@ -89,7 +89,7 @@ namespace JP.Utils.Image
                 var data = await decoder.GetPixelDataAsync();
                 var newSize = GetCompressedSize(scaledLong, decoder.PixelWidth, decoder.PixelHeight);
 
-                var fileToSave =await GetTempFile(fileToHandle.Name);
+                var fileToSave = await GetTempFile(fileToHandle.Name);
                 using (var saveStream = await fileToSave.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     try
@@ -113,7 +113,7 @@ namespace JP.Utils.Image
                         return null;
                     }
                 }
-                
+
             }
 
         }

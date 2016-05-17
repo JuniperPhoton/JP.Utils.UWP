@@ -8,12 +8,13 @@ using Windows.UI.Composition;
 
 namespace JP.Utils.CompositionAPI
 {
+    //Unfinished
     public static class EasingFuncFactory
     {
         public static CubicBezierEasingFunction CreateCubibeEasingFunc(Compositor compositor)
         {
             var func = compositor.CreateCubicBezierEasingFunction(
-                 new Vector2(), new Vector2(1f,1f));
+                 new Vector2(), new Vector2(1f, 1f));
             return func;
         }
     }

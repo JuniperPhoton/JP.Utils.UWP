@@ -248,7 +248,7 @@ namespace JP.Utils.Control
                 containerVisual.StopAnimation("Offset.Y");
             }
 
-            var indexToInsert = (int)Math.Floor((_distanceToTopAfterMoving+_movingItem.ActualHeight/2) / _secondItemDistanceToTop);
+            var indexToInsert = (int)Math.Floor((_distanceToTopAfterMoving + _movingItem.ActualHeight / 2) / _secondItemDistanceToTop);
             if (indexToInsert < 0) indexToInsert = 0;
             if (indexToInsert >= this.Items.Count) indexToInsert = this.Items.Count - 1;
 
@@ -269,11 +269,11 @@ namespace JP.Utils.Control
             var item = this.ContainerFromIndex(itemIndex) as FrameworkElement;
             var itemVisual = ElementCompositionPreview.GetElementVisual(item);
             var offsetYToTop = (float)(item.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0))).Y;
-            if(EnableWaggingAnimation)
+            if (EnableWaggingAnimation)
             {
                 offsetYToTop -= (itemVisual.Offset.Y % 10);
             }
-            
+
             var targetOffsetY = 0f;
             if (_distanceToTopAfterMoving > _distanceToTopBeforeMoving)
             {

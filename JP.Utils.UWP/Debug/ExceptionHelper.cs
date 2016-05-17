@@ -22,7 +22,7 @@ namespace JP.Utils.Debug
         /// <param name="e">EX</param>
         /// <param name="methodName">附带的信息</param>
         /// <returns>成功返回TRUE，失败返回FALSE</returns>
-        public async static Task<bool> WriteRecordAsync(Exception e,string className="", string methodName = "",string extraStr="")
+        public async static Task<bool> WriteRecordAsync(Exception e, string className = "", string methodName = "", string extraStr = "")
         {
             try
             {
@@ -42,7 +42,7 @@ namespace JP.Utils.Debug
                     extraStr +
                     Environment.NewLine +
                     "---------------";
-                await FileIO.AppendTextAsync(file,contents);
+                await FileIO.AppendTextAsync(file, contents);
                 await UmengSDK.UmengAnalytics.TrackError(contents);
                 return true;
             }
@@ -102,8 +102,8 @@ namespace JP.Utils.Debug
         public async static Task EraseRecord()
         {
             var localfolder = ApplicationData.Current.LocalFolder;
-            var file =await localfolder.TryGetFileAsync("error.log");
-            if(file!=null) await FileIO.WriteTextAsync(file, "");
+            var file = await localfolder.TryGetFileAsync("error.log");
+            if (file != null) await FileIO.WriteTextAsync(file, "");
         }
     }
 }
