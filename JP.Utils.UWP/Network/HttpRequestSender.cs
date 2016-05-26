@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
-using Windows.Web.Http;
 
 namespace JP.Utils.Network
 {
@@ -47,13 +47,17 @@ namespace JP.Utils.Network
             try
             {
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
-                request.Content = new HttpFormUrlEncodedContent(paras);
+                request.Content = new FormUrlEncodedContent(paras);
 
                 return await SendRequest(request, token);
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
-                throw ex;
+                throw;
+            }
+            catch(OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -71,7 +75,7 @@ namespace JP.Utils.Network
         public static async Task<CommonRespMsg> SendPostRequestAsync(string url, string paramsInRaw, CancellationToken token)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
-            request.Content = new HttpStringContent(paramsInRaw);
+            request.Content = new StringContent(paramsInRaw);
             return await SendRequest(request, token);
         }
 
@@ -86,21 +90,24 @@ namespace JP.Utils.Network
                     HttpResponseMessage resp = null;
                     if (token == null)
                     {
-                        resp = await client.SendRequestAsync(request);
+                        resp = await client.SendAsync(request);
                     }
-                    else resp = await client.SendRequestAsync(request).AsTask(token);
+                    else resp = await client.SendAsync(request, token);
                     resp.EnsureSuccessStatusCode();
 
-                    var bytes = await resp.Content.ReadAsBufferAsync();
-                    var content = Encoding.UTF8.GetString(bytes.ToArray());
-                    msgToReturn.JsonSrc = content;
+                    var str = await resp.Content.ReadAsStringAsync();
+                    msgToReturn.JsonSrc = str;
 
                     resp.Dispose();
                 }
             }
-            catch (TaskCanceledException e)
+            catch (TaskCanceledException)
             {
-                throw e;
+                throw;
+            }
+            catch(OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception e)
             {

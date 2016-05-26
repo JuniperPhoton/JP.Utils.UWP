@@ -148,6 +148,7 @@
     <Compile Include="Image\ImageHandleHelper.cs" />
     <Compile Include="Control\ListViewEx.cs" />
     <Compile Include="Network\APIHelper.cs" />
+    <Compile Include="Network\CTSFactory.cs" />
     <Compile Include="Network\FileDownloadUtil.cs" />
     <Compile Include="Network\CommonRespMsg.cs" />
     <Compile Include="Network\DateTimeHelper.cs" />

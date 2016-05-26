@@ -11,8 +11,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.IO;
 using JP.Exceptions;
 using System.Threading;
+using JP.API;
 
-namespace JP.API
+namespace JP.Utils.UWP.Network
 {
     [Obsolete("Please use HttpRequestSender instead.")]
     public static class APIHelper
