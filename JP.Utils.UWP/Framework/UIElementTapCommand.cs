@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace JP.Utils.Framework
@@ -22,9 +16,9 @@ namespace JP.Utils.Framework
             obj.SetValue(ItemTapCommandProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemTapCommandProperty =
-            DependencyProperty.RegisterAttached("ItemTapCommand", typeof(ICommand), typeof(UIElementTapCommand), new PropertyMetadata(null, OnTappedCommandPropertyChanged));
+            DependencyProperty.RegisterAttached("ItemTapCommand", typeof(ICommand), 
+                typeof(UIElementTapCommand), new PropertyMetadata(null, OnTappedCommandPropertyChanged));
 
         private static void OnTappedCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -34,7 +28,6 @@ namespace JP.Utils.Framework
             {
                 currentBase.Tapped += Control_ItemTap;
             }
-
         }
 
         private static void Control_ItemTap(object sender, TappedRoutedEventArgs e)
@@ -49,7 +42,5 @@ namespace JP.Utils.Framework
                     command.Execute(currentBase);
             }
         }
-
-
     }
 }

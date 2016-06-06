@@ -54,7 +54,7 @@ namespace JP.Utils.Data
         /// <typeparam name="T">要反序列化获得的对象</typeparam>
         /// <param name="filename">储存在独立储存的文件名</param>
         /// <returns>返回反序列化后的对象，如果文件不存在，返回一个Object类型的对象</returns>
-        public async static Task<T> DeserializeFromJsonByFileName<T>(string filename, StorageFolder defaultFolder = null)
+        public async static Task<T> DeserializeFromJsonByFile<T>(string filename, StorageFolder defaultFolder = null)
         {
             try
             {
@@ -70,29 +70,22 @@ namespace JP.Utils.Data
             }
             catch (Exception e)
             {
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), nameof(DeserializeFromJsonByFile));
                 return default(T);
             }
         }
 
         public static T DeSerializeFromJsonStr<T>(string jsonStr)
         {
-            try
+            if (!string.IsNullOrEmpty(jsonStr))
             {
-                if (!string.IsNullOrEmpty(jsonStr))
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonStr)))
                 {
-                    using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonStr)))
-                    {
-                        T objectToReturn = (T)new DataContractJsonSerializer(typeof(T)).ReadObject(ms);
-                        return objectToReturn;
-                    }
+                    T objectToReturn = (T)new DataContractJsonSerializer(typeof(T)).ReadObject(ms);
+                    return objectToReturn;
                 }
-                else return default(T);
             }
-            catch (Exception e)
-            {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), nameof(DeserializeFromJsonByFileName));
-                return default(T);
-            }
+            else return default(T);
         }
 
         //以下为序列化XML
