@@ -1,5 +1,4 @@
-﻿using JP.Utils.UWP.CustomControl;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,8 +27,6 @@ namespace TestApp
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            ContentPopupEx cpex = new ContentPopupEx(new MyUserControl1(){ Width = 400 });
-            await cpex.ShowAsync();
         }
     }
 }
