@@ -144,7 +144,8 @@ namespace JP.Utils.Control
             var item = itemContainer.ContentTemplateRoot as FrameworkElement;
             var elementToReorder = item.FindName(ReorderUIElementName) as UIElement;
 
-            if (elementToReorder == null) throw new ArgumentNullException($"Can find the the UIElement(named {ReorderUIElementName} used to be maniputed.");
+            if (elementToReorder == null)
+                throw new ArgumentNullException($"Can find the the UIElement(named {ReorderUIElementName} used to be maniputed.");
 
             elementToReorder.ManipulationMode = ManipulationModes.TranslateY;
 
