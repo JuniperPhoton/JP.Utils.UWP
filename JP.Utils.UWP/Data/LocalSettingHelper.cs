@@ -67,7 +67,7 @@ namespace JP.Utils.Data
             {
                 return (string)LocalSettings.Values[key];
             }
-            return default(string);
+            return null;
         }
 
         public static void CleanUpAll()

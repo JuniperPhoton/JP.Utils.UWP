@@ -23,10 +23,17 @@ namespace TestApp
         public MainPage()
         {
             this.InitializeComponent();
+            this.Loaded += MainPage_Loaded;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            var list = new List<string>();
+            for(int i=0;i<50;i++)
+            {
+                list.Add(i.ToString());
+            }
+            LV.ItemsSource = list;
         }
     }
 }

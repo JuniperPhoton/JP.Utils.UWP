@@ -64,7 +64,7 @@ namespace JP.Utils.UWP.Network
             }
             catch (Exception e)
             {
-                return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = e.Message };
+                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = e.Message };
             }
         }
 
@@ -90,7 +90,7 @@ namespace JP.Utils.UWP.Network
             }
             catch (Exception ex)
             {
-                return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = ex.Message };
+                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = ex.Message };
             }
         }
 
@@ -127,24 +127,7 @@ namespace JP.Utils.UWP.Network
                     var bytes = await resp.Content.ReadAsBufferAsync();
                     var content = Encoding.UTF8.GetString(bytes.ToArray());
                     msgToReturn.JsonSrc = content;
-
-                    JsonObject resultObj;
-                    var ok = JsonObject.TryParse(content, out resultObj);
-                    if (ok)
-                    {
-                        var errorCode = JsonParser.GetStringFromJsonObj(resultObj, "errorCode");
-                        var errorMsg = JsonParser.GetStringFromJsonObj(resultObj, "errorMsg");
-
-                        if (!string.IsNullOrEmpty(errorCode))
-                        {
-                            if (errorCode != "0")
-                            {
-                                msgToReturn.IsSuccessful = false;
-                            }
-                            msgToReturn.ErrorCode = int.Parse(errorCode);
-                            msgToReturn.ErrorMsg = errorMsg;
-                        }
-                    }
+                    
                     resp.Dispose();
                 }
             }
@@ -154,8 +137,8 @@ namespace JP.Utils.UWP.Network
             }
             catch (Exception e)
             {
-                msgToReturn.IsSuccessful = false;
-                msgToReturn.ExtraErrorMsg += e.Message;
+                msgToReturn.IsRequestSuccessful = false;
+                msgToReturn.RequestErrorMsg += e.Message;
             }
             return msgToReturn;
         }

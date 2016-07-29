@@ -224,12 +224,12 @@ namespace JP.Utils.Control
             }
 
             //TODO: Scroll the ScrollViewer while the moving item is about to exit the visible area.
-            //if (_distanceToTopAfterMoving + _movingVisual.Offset.Y + 20 > _scrollViewer.ActualHeight)
-            //{
-            //    var scrollViewerY = _scrollViewer.VerticalOffset;
-            //    _scrollViewer.ChangeView(null, e.Delta.Translation.Y + scrollViewerY, null);
-            //    _movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
-            //}
+            if (_distanceToTopAfterMoving + _movingVisual.Offset.Y + 20 > _scrollViewer.ActualHeight)
+            {
+                var scrollViewerY = _scrollViewer.VerticalOffset;
+                _scrollViewer.ChangeView(null, e.Delta.Translation.Y + scrollViewerY, null);
+                //_movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
+            }
         }
 
         private void UIElementToReorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)

@@ -31,7 +31,7 @@ namespace JP.Utils.Network
             }
             catch (Exception e)
             {
-                return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = e.Message };
+                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = e.Message };
             }
         }
 
@@ -61,7 +61,7 @@ namespace JP.Utils.Network
             }
             catch (Exception ex)
             {
-                return new CommonRespMsg() { IsSuccessful = false, ExtraErrorMsg = ex.Message };
+                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = ex.Message };
             }
         }
 
@@ -111,8 +111,8 @@ namespace JP.Utils.Network
             }
             catch (Exception e)
             {
-                msgToReturn.IsSuccessful = false;
-                msgToReturn.ExtraErrorMsg += e.Message;
+                msgToReturn.IsRequestSuccessful = false;
+                msgToReturn.RequestErrorMsg += e.Message;
             }
             return msgToReturn;
         }
