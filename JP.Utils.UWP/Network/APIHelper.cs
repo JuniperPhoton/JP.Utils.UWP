@@ -9,7 +9,6 @@ using Windows.Storage.Streams;
 using Windows.Web.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.IO;
-using JP.Exceptions;
 using System.Threading;
 using JP.API;
 
