@@ -5,7 +5,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace ChaoFunctionRT
+namespace JP.Utils.Image
 {
     public class BitmapHandleHelper
     {
@@ -15,7 +15,7 @@ namespace ChaoFunctionRT
         /// <param name="sourceStream">包含图片数据的数据流</param>
         /// <param name="scaleLong">如果图片长大于宽，那么此为改编后的长度，反之是改变后的高度</param>
         /// <returns></returns>
-        public static async Task<IRandomAccessStream> ResizeImage(IRandomAccessStream sourceStream, uint scaleLong)
+        public static async Task<StorageFile> ResizeImage(IRandomAccessStream sourceStream, uint scaleLong)
         {
             try
             {
@@ -55,18 +55,13 @@ namespace ChaoFunctionRT
 
                 var folder = ApplicationData.Current.TemporaryFolder;
                 var tempfile = await folder.CreateFileAsync("temp.jpg", CreationCollisionOption.GenerateUniqueName);
-                IRandomAccessStream destStream = await tempfile.OpenAsync(FileAccessMode.ReadWrite);
-
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, destStream);
-                encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight, transform.ScaledWidth, transform.ScaledHeight, 100, 100, pixelData.DetachPixelData());
-                await encoder.FlushAsync();
-
-                //REMEMBER
-                destStream.Seek(0);
-
-                await tempfile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-
-                return destStream;
+                using (var destStream = await tempfile.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, destStream);
+                    encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight, transform.ScaledWidth, transform.ScaledHeight, 100, 100, pixelData.DetachPixelData());
+                    await encoder.FlushAsync();
+                    return tempfile;
+                }
             }
             catch (Exception e)
             {
@@ -82,7 +77,7 @@ namespace ChaoFunctionRT
         /// <param name="expWidth">期望的宽度</param>
         /// <param name="expHeight">期望的高度</param>
         /// <returns></returns>
-        public static async Task<IRandomAccessStream> ResizeImageHard(IRandomAccessStream sourceStream, uint expWidth, uint expHeight)
+        public static async Task<StorageFile> ResizeImageHard(IRandomAccessStream sourceStream, uint expWidth, uint expHeight)
         {
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream);
             uint height = decoder.PixelHeight;
@@ -104,17 +99,14 @@ namespace ChaoFunctionRT
                 ExifOrientationMode.IgnoreExifOrientation,
                 ColorManagementMode.DoNotColorManage);
 
-            var tempfile = await ApplicationData.Current.LocalFolder.CreateFileAsync("temp.jpg", CreationCollisionOption.ReplaceExisting);
-            IRandomAccessStream destStream = await tempfile.OpenAsync(FileAccessMode.ReadWrite);
-
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, destStream);
-            encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight, transform.ScaledWidth, transform.ScaledHeight, 100, 100, pixelData.DetachPixelData());
-            await encoder.FlushAsync();
-
-            //把流的位置变为0，这样才能从头读出图片流
-            destStream.Seek(0);
-
-            return destStream;
+            var tempfile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync("temp.jpg", CreationCollisionOption.ReplaceExisting);
+            using (var destStream = await tempfile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, destStream);
+                encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight, transform.ScaledWidth, transform.ScaledHeight, 100, 100, pixelData.DetachPixelData());
+                await encoder.FlushAsync();
+                return tempfile;
+            }
         }
     }
 }
