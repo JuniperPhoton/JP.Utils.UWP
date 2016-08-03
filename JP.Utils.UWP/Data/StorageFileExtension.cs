@@ -22,7 +22,7 @@ namespace JP.Utils.Data
                 var file = await folder.GetFileAsync(fileName);
                 return file;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

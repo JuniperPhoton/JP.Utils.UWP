@@ -17,13 +17,15 @@ namespace JP.Utils.Data
         }
 
         /// <summary>
-        /// 添加键值，如果存在键则更新值
+        /// 添加键值对
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public static bool AddValue(string key, string value, bool isCheckExist = false)
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="notOverride">如果已经存在，是否复写</param>
+        /// <returns></returns>
+        public static bool AddValue(string key, string value, bool notOverride = false)
         {
-            if (isCheckExist)
+            if (notOverride)
             {
                 if (LocalSettings.Values.ContainsKey(key))
                 {
@@ -34,6 +36,13 @@ namespace JP.Utils.Data
             return true;
         }
 
+        /// <summary>
+        /// 添加键值对
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="isCheckExist"></param>
+        /// <returns></returns>
         public static bool AddValue(string key, bool value, bool isCheckExist = false)
         {
             if (isCheckExist)
@@ -57,7 +66,7 @@ namespace JP.Utils.Data
         }
 
         /// <summary>
-        /// 获取某键的值
+        /// 获取某键的值，如果没有，返回 null
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -70,6 +79,9 @@ namespace JP.Utils.Data
             return null;
         }
 
+        /// <summary>
+        /// 清空设置
+        /// </summary>
         public static void CleanUpAll()
         {
             LocalSettings.Values.Clear();
