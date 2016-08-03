@@ -22,55 +22,41 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty ItemClickCommandProperty =
-            DependencyProperty.RegisterAttached("ItemClickCommand", typeof(ICommand), typeof(ListViewBaseCommandEx), new PropertyMetadata(null, OnGridTappedCommandPropertyChanged));
+            DependencyProperty.RegisterAttached("ItemClickCommand", typeof(ICommand), typeof(ListViewBaseCommandEx),
+                new PropertyMetadata(null, OnItemClickedCommandPropertyChanged));
 
-        private static void OnGridTappedCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnItemClickedCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ListViewBase currentBase = null;
-            if (d is ListView)
+            ListViewBase currentBase = d as ListViewBase;
+            if (currentBase == null)
             {
-                currentBase = d as ListView;
+                throw new ArgumentNullException("Must be used on ListView/GridView!");
             }
-            else currentBase = d as GridView;
 
-            if (currentBase != null)
-            {
-                currentBase.ItemClick -= Control_ItemClick;
-                currentBase.ItemClick += Control_ItemClick;
-            }
+            currentBase.ItemClick += Control_ItemClick;
         }
 
         private static void Control_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ListViewBase currentBase = null;
-            if (sender is ListView)
+            ListViewBase currentBase = sender as ListViewBase;
+
+            var command = GetItemClickCommand(currentBase);
+
+            var paramter = e.ClickedItem;
+
+            object obj = null;
+
+            if (paramter != null)
             {
-                currentBase = sender as ListView;
+                obj = paramter;
             }
             else
             {
-                currentBase = sender as GridView;
+                obj = currentBase.DataContext;
             }
-            if (currentBase != null)
-            {
-                var command = GetItemClickCommand(currentBase);
 
-                var paramter = e.ClickedItem;
-
-                object obj = null;
-
-                if (paramter != null)
-                {
-                    obj = paramter;
-                }
-                else
-                {
-                    obj = currentBase.DataContext;
-                }
-
-                if (command != null && command.CanExecute(obj))
-                    command.Execute(obj);
-            }
+            if (command != null && command.CanExecute(obj))
+                command.Execute(obj);
         }
 
         #region CommandParameter

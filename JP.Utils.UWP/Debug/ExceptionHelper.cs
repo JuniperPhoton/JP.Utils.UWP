@@ -15,20 +15,21 @@ namespace JP.Utils.Debug
 {
     public class ExceptionHelper
     {
-
         /// <summary>
-        /// 写入独立储存，文件名为error.log
+        /// 记录异常
         /// </summary>
-        /// <param name="e">EX</param>
-        /// <param name="methodName">附带的信息</param>
-        /// <returns>成功返回TRUE，失败返回FALSE</returns>
+        /// <param name="e"></param>
+        /// <param name="className"></param>
+        /// <param name="methodName"></param>
+        /// <param name="extraStr"></param>
+        /// <returns></returns>
         public async static Task<bool> WriteRecordAsync(Exception e, string className = "", string methodName = "", string extraStr = "")
         {
             try
             {
                 var localfolder = ApplicationData.Current.LocalFolder;
                 var file = await localfolder.CreateFileAsync("error.log", CreationCollisionOption.OpenIfExists);
-                var contents = Environment.NewLine +
+                var content = Environment.NewLine +
                     "EXCEPTION:" +
                     e.ToString() +
                     Environment.NewLine +
@@ -42,8 +43,34 @@ namespace JP.Utils.Debug
                     extraStr +
                     Environment.NewLine +
                     "---------------";
-                await FileIO.AppendTextAsync(file, contents);
-                await UmengSDK.UmengAnalytics.TrackError(contents);
+                System.Diagnostics.Debug.WriteLine(content);
+                await FileIO.AppendTextAsync(file, content);
+                await UmengSDK.UmengAnalytics.TrackError(content);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 记录异常
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public async static Task<bool> WriteRecordAsync(string info)
+        {
+            try
+            {
+                var localfolder = ApplicationData.Current.LocalFolder;
+                var file = await localfolder.CreateFileAsync("error.log", CreationCollisionOption.OpenIfExists);
+                var content = Environment.NewLine + info;
+
+                System.Diagnostics.Debug.WriteLine(content);
+
+                await FileIO.AppendTextAsync(file, content);
+                await UmengSDK.UmengAnalytics.TrackError(content);
                 return true;
             }
             catch (Exception)
@@ -73,7 +100,7 @@ namespace JP.Utils.Debug
             }
         }
 
-        public async static Task<EmailAttachment> GetLogFileAttachement()
+        public async static Task<EmailAttachment> GetLogFileAttachementAsync()
         {
             try
             {
@@ -99,7 +126,7 @@ namespace JP.Utils.Debug
             }
         }
 
-        public async static Task EraseRecord()
+        public async static Task EraseRecordAsync()
         {
             var localfolder = ApplicationData.Current.LocalFolder;
             var file = await localfolder.TryGetFileAsync("error.log");

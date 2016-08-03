@@ -129,6 +129,7 @@
     <Compile Include="Data\SerializerHelper.cs" />
     <Compile Include="Data\StorageFileExtension.cs" />
     <Compile Include="Debug\ExceptionHelper.cs" />
+    <Compile Include="Debug\Logger.cs" />
     <Compile Include="Device\APIInfoHelper.cs" />
     <Compile Include="Device\DeviceHelper.cs" />
     <Compile Include="Device\PhoneNameResolver.cs" />
