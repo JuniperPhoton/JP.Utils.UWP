@@ -29,6 +29,7 @@ namespace JP.Utils.Control
             if(this.Date.HasValue)
             {
                 this.SelectedDateTime = sender.Date.Value.DateTime;
+                this.PlaceholderText= sender.Date.Value.DateTime.ToString("yyyy-MM-dd");
             }
         }
     }
