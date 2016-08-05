@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -10,6 +11,9 @@ namespace JP.Utils.Animation
     {
         protected float _toValue;
         protected float _fromValue;
+        protected int _delayTime;
+
+        public int DelayTimeSpan { get; set; }
 
         public UIElement UIElement { get; set; }
 
@@ -43,7 +47,7 @@ namespace JP.Utils.Animation
             return this;
         }
 
-        public virtual void Now()
+        public virtual async Task NowAsync()
         {
             if (UIElement == null) throw new ArgumentNullException("Must specify an UIElement.");
             var root = ElementCompositionPreview.GetElementVisual(UIElement);
@@ -60,6 +64,12 @@ namespace JP.Utils.Animation
         public IAnimator To(Vector3 toValue)
         {
             throw new NotImplementedException();
+        }
+
+        public IAnimator Delay(int timeSpan)
+        {
+            _delayTime = timeSpan;
+            return this;
         }
     }
 }

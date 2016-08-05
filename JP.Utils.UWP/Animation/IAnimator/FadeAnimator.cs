@@ -11,14 +11,26 @@ namespace JP.Utils.Animation
     {
         protected ScalarKeyFrameAnimation _animation;
 
-        public override void Now()
+        public override async Task NowAsync()
         {
-            base.Now();
+            await base.NowAsync();
             _animation = Compositor.CreateScalarKeyFrameAnimation();
             _animation.InsertKeyFrame(0f, _fromValue);
             _animation.InsertKeyFrame(1f, _toValue);
             _animation.Duration = TimeSpan.FromMilliseconds(DurationTimeInMiles);
+            _animation.DelayTime = TimeSpan.FromMilliseconds(DelayTimeSpan);
+
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            var batch = Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            
             RootVisual.StartAnimation("Opacity", _animation);
+            batch.Completed += (sender, e) =>
+              {
+                  tcs.SetResult(true);
+              };
+            batch.End();
+
+            await tcs.Task;
         }
     }
 }

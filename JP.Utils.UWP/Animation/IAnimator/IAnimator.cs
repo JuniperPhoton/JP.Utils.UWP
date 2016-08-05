@@ -13,8 +13,6 @@ namespace JP.Utils.Animation
     {
         UIElement UIElement { get; set; }
 
-        int DurationTimeInMiles { get; set; }
-
         Visual RootVisual { get; set; }
 
         Compositor Compositor { get; set; }
@@ -31,6 +29,8 @@ namespace JP.Utils.Animation
 
         IAnimator To(Vector3 toValue);
 
-        void Now();
+        IAnimator Delay(int value);
+
+        Task NowAsync();
     }
 }
