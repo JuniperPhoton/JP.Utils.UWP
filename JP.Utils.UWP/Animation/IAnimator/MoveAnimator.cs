@@ -28,5 +28,10 @@ namespace JP.Utils.Animation
 
             await tcs.Task;
         }
+
+        public override void Now()
+        {
+            var task = this.NowAsync();
+        }
     }
 }

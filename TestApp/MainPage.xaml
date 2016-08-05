@@ -1,15 +1,22 @@
-﻿<Page
-    x:Class="TestApp.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TestApp"
-    xmlns:attach="using:JP.Utils.Framework"
-    xmlns:control="using:JP.Utils.Control"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="TestApp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:attach="using:JP.Utils.Framework"
+      xmlns:control="using:JP.Utils.Control"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:TestApp"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <control:CalendarDatePickerEx SelectedDateTime="{x:Bind SelectedDateTime,Mode=TwoWay}"/>
-    </Grid>
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Border x:Name="Border1"
+                Width="100"
+                Height="200"
+                Background="#FFFF4343" />
+        <Border x:Name="Border2"
+                Width="100"
+                Height="200"
+                Background="#FF29AB2F" />
+        <Button Content="click me" Click="Button_Click"/>
+    </StackPanel>
 </Page>

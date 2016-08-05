@@ -71,5 +71,10 @@ namespace JP.Utils.Animation
             _delayTime = timeSpan;
             return this;
         }
+
+        public virtual void Now()
+        {
+            this.NowAsync();
+        }
     }
 }

@@ -32,5 +32,7 @@ namespace JP.Utils.Animation
         IAnimator Delay(int value);
 
         Task NowAsync();
+
+        void Now();
     }
 }
