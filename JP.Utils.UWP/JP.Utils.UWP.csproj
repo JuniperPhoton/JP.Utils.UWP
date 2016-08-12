@@ -163,7 +163,6 @@
     <Compile Include="UI\ListViewScrollExtension.cs" />
     <Compile Include="Framework\ScrollViewerStyleChanger.cs" />
     <Compile Include="UI\ScrollViewExtension.cs" />
-    <Content Include="NotificationsExtensions.dll" />
     <Content Include="Properties\JP.Utils.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup />

@@ -123,15 +123,18 @@ namespace JP.Utils.Helper
             }
         }
 
-        public static bool IsSupportHightResolution
+        /// <summary>
+        /// 是否高性能设备：929，930，950，950XL，1520
+        /// </summary>
+        public static bool IsHighPerformance
         {
             get
             {
-                //var deviceModel = DeviceModel;
-                //if (Regex.IsMatch(deviceModel, @"939|937|927|1087|1045|1118|1116|1104|1085"))
-                //{
-                //    return true;
-                //}
+                var deviceModel = DeviceModel;
+                if (Regex.IsMatch(deviceModel, @"927|1045|1087|1104|1105|1085|1116|1118|937|938|939|940"))
+                {
+                    return true;
+                }
                 return false;
             }
         }

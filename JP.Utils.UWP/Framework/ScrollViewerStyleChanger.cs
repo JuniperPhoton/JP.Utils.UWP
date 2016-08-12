@@ -19,7 +19,8 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty StyleProperty =
-            DependencyProperty.RegisterAttached("Style", typeof(Style), typeof(ScrollViewerStyleChanger), new PropertyMetadata(null, OnStylePropertyChanged));
+            DependencyProperty.RegisterAttached("Style", typeof(Style), typeof(ScrollViewerStyleChanger), 
+                new PropertyMetadata(null, OnStylePropertyChanged));
 
         private static void OnStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
