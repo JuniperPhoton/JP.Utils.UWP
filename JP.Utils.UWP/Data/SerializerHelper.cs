@@ -64,9 +64,12 @@ namespace JP.Utils.Data
                     folder = ApplicationData.Current.LocalFolder;
                 }
                 var file = await folder.GetFileAsync(filename);
-                string jsonString = await FileIO.ReadTextAsync(file);
-
-                return DeSerializeFromJsonStr<T>(jsonString);
+                if (file != null)
+                {
+                    string jsonString = await FileIO.ReadTextAsync(file);
+                    return DeSerializeFromJsonStr<T>(jsonString);
+                }
+                return default(T);
             }
             catch (Exception e)
             {
