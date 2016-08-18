@@ -15,14 +15,7 @@ namespace JP.Utils.Debug
 {
     public class ExceptionHelper
     {
-        /// <summary>
-        /// 记录异常
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="className"></param>
-        /// <param name="methodName"></param>
-        /// <param name="extraStr"></param>
-        /// <returns></returns>
+        [Obsolete("Should use LogAsync(Exception) in Logger class")]
         public async static Task<bool> WriteRecordAsync(Exception e, string className = "", string methodName = "", string extraStr = "")
         {
             try
@@ -43,7 +36,6 @@ namespace JP.Utils.Debug
                     extraStr +
                     Environment.NewLine +
                     "---------------";
-                System.Diagnostics.Debug.WriteLine(content);
                 await FileIO.AppendTextAsync(file, content);
                 await UmengSDK.UmengAnalytics.TrackError(content);
                 return true;
@@ -54,11 +46,7 @@ namespace JP.Utils.Debug
             }
         }
 
-        /// <summary>
-        /// 记录异常
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        [Obsolete("Should use LogAsync(Exception) in Logger class")]
         public async static Task<bool> WriteRecordAsync(string info)
         {
             try

@@ -1,4 +1,5 @@
 ﻿using JP.Utils.Animation;
+using JP.Utils.Debug;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Composition;
@@ -47,8 +49,24 @@ namespace TestApp
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await FlowsAnimator.CreateFadeAnimation().AnimateWith(Border1).From(1).To(0).For(3000).NowAsync();
-            _border2Visual.Opacity = 1;
+            Method1();
+        }
+
+        public async void Method1()
+        {
+           await Method2();
+        }
+
+        private async Task Method2()
+        {
+            try
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                await Logger.LogAsync(ex);
+            }
         }
     }
 }
