@@ -43,7 +43,7 @@ namespace JP.Utils.Data
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), "SerializerToJson<T>");
+                var task = Logger.LogAsync(e, true);
                 return false;
             }
         }
@@ -73,7 +73,7 @@ namespace JP.Utils.Data
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(SerializerHelper), nameof(DeserializeFromJsonByFile));
+                var task = Logger.LogAsync(e, true);
                 return default(T);
             }
         }
