@@ -107,17 +107,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation\FlowsAnimator.cs" />
-    <Compile Include="Animation\IAnimator\AbstractScalarAnimator.cs" />
-    <Compile Include="Animation\IAnimator\AbstractVertor3Animator.cs" />
-    <Compile Include="Animation\IAnimator\FadeAnimator.cs" />
-    <Compile Include="Animation\IAnimator\IAnimator.cs" />
-    <Compile Include="Animation\IAnimator\MoveAnimator.cs" />
     <Compile Include="Application\ApplicationPackageManager.cs" />
     <Compile Include="Application\ContactHelper.cs" />
-    <Compile Include="Application\SuspensionManager.cs" />
-    <Compile Include="CompositionAPI\CompositionAPIUtil.cs" />
-    <Compile Include="CompositionAPI\EasingFuncFactory.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\DeepCopier.cs" />
     <Compile Include="Data\ExtMethods.cs" />
@@ -165,7 +156,10 @@
     <Compile Include="UI\ScrollViewExtension.cs" />
     <Content Include="Properties\JP.Utils.UWP.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Animation\" />
+    <Folder Include="CompositionAPI\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

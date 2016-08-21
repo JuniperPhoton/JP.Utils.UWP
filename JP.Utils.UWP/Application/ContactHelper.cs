@@ -15,8 +15,7 @@ namespace JP.Utils.Application
 
             if (contactStore == null)
             {
-                MessageDialog connectionWarning =
-                    new MessageDialog("应用需要访问你的所有联系人，请允许");
+                MessageDialog connectionWarning = new MessageDialog("We need access to your contacts.");
                 await connectionWarning.ShowAsync();
 
                 await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-contacts"));

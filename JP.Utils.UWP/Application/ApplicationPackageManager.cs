@@ -20,10 +20,7 @@ namespace JP.Utils.Application
 
             if (Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppVersion"] as string != appVersion)
             {
-                // Our app has been updated
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppVersion"] = appVersion;
-
-                // Call RemoveAccess
                 BackgroundExecutionManager.RemoveAccess();
             }
 

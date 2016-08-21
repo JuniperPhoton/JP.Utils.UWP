@@ -5,7 +5,7 @@ namespace JP.Utils.Data
 {
     public static class ObjectExtensions
     {
-        public static T DeepCopy<T>(T obj)
+        public static T DeepCopy<T>(this T obj)
         {
             object retval;
             using (MemoryStream ms = new MemoryStream())
