@@ -69,7 +69,7 @@ namespace JP.Utils.Image
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(BitmapHandleHelper), nameof(ResizeImage));
+                var task = Logger.LogAsync(e);
                 return null;
             }
         }
