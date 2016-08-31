@@ -103,7 +103,7 @@ namespace JP.Utils.Debug
                 if (copiedFile == null) throw new ArgumentNullException();
 
                 var attachment = new EmailAttachment();
-                attachment.FileName = "ErroLog.log";
+                attachment.FileName = "ErrorLog.log";
                 attachment.Data = RandomAccessStreamReference.CreateFromFile(copiedFile);
 
                 return attachment;

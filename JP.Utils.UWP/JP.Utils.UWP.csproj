@@ -7,8 +7,8 @@
     <ProjectGuid>{357C51DB-765E-4A88-950F-CDA24F7184C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JP.Utils</RootNamespace>
-    <AssemblyName>JP.Utils</AssemblyName>
+    <RootNamespace>JP.Utils.UWP</RootNamespace>
+    <AssemblyName>JP.Utils.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>

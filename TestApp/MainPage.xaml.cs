@@ -1,24 +1,11 @@
-﻿using JP.Utils.Animation;
-using JP.Utils.Debug;
+﻿using JP.Utils.Debug;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace TestApp
 {
@@ -43,6 +30,8 @@ namespace TestApp
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             _border2Visual.Opacity = 0f;
+
+            Logger.LogAsync("");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
