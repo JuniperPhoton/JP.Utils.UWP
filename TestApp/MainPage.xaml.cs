@@ -1,5 +1,7 @@
 ﻿using JP.Utils.Debug;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
@@ -9,53 +11,33 @@ using Windows.UI.Xaml.Hosting;
 
 namespace TestApp
 {
-    public sealed partial class MainPage : Page , INotifyPropertyChanged
+    public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private Visual _border1Visual;
-        private Visual _border2Visual;
-        private Compositor _compositor;
-
-        private void RaisePropertyChanged(string name)
+        private ObservableCollection<string> _list;
+        public ObservableCollection<string> List
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            get
+            {
+                return _list;
+            }
+            set
+            {
+                _list = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(List)));
+            }
         }
 
         public MainPage()
         {
             this.InitializeComponent();
-            this.DataContext = this;
-
-            _border1Visual = ElementCompositionPreview.GetElementVisual(Border1);
-            _border2Visual = ElementCompositionPreview.GetElementVisual(Border2);
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-            _border2Visual.Opacity = 0f;
-
-            Logger.LogAsync("");
+            _list = new ObservableCollection<string>();
+            for (int i = 0; i < 21; i++)
+            {
+                _list.Add(i.ToString());
+            }
+            listview.ItemsSource = _list;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Method1();
-        }
-
-        public async void Method1()
-        {
-           await Method2();
-        }
-
-        private async Task Method2()
-        {
-            try
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                await Logger.LogAsync(ex);
-            }
-        }
     }
 }

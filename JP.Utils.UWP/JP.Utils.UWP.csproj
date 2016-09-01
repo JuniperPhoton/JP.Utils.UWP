@@ -117,6 +117,7 @@
     <Compile Include="Data\Json\JsonMaker.cs" />
     <Compile Include="Data\Json\JsonParser.cs" />
     <Compile Include="Data\LocalSettingHelper.cs" />
+    <Compile Include="Data\Maths.cs" />
     <Compile Include="Data\SerializerHelper.cs" />
     <Compile Include="Data\StorageFileExtension.cs" />
     <Compile Include="Debug\ExceptionHelper.cs" />

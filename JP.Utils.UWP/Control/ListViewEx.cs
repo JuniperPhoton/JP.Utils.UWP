@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using JP.Utils.UWP.Data;
 
 namespace JP.Utils.Control
 {
@@ -20,7 +21,8 @@ namespace JP.Utils.Control
         }
 
         public static readonly DependencyProperty StickyHeaderNameProperty =
-            DependencyProperty.Register("StickyHeaderName", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
+            DependencyProperty.Register("StickyHeaderName", typeof(string), typeof(ListViewEx),
+                new PropertyMetadata(null));
 
         public string ReorderUIElementName
         {
@@ -29,7 +31,8 @@ namespace JP.Utils.Control
         }
 
         public static readonly DependencyProperty ReorderUIElementNameProperty =
-            DependencyProperty.Register("ReorderUIElementName", typeof(string), typeof(ListViewEx), new PropertyMetadata(null));
+            DependencyProperty.Register("ReorderUIElementName", typeof(string), typeof(ListViewEx),
+                new PropertyMetadata(null));
 
         public bool EnableWaggingAnimation
         {
@@ -38,7 +41,8 @@ namespace JP.Utils.Control
         }
 
         public static readonly DependencyProperty EnableWaggingAnimationProperty =
-            DependencyProperty.Register("EnableWaggingAnimation", typeof(bool), typeof(ListViewEx), new PropertyMetadata(true));
+            DependencyProperty.Register("EnableWaggingAnimation", typeof(bool), typeof(ListViewEx),
+                new PropertyMetadata(false));
 
         public event Action OnReorderStopped;
 
@@ -48,9 +52,9 @@ namespace JP.Utils.Control
         private int _movingItemIndex;
         private int _zindex;
         private bool[] _isItemsAnimated;
-        private double _distanceToTopBeforeMoving = 0f;
-        private double _distanceToTopAfterMoving = 0f;
-        private double _secondItemDistanceToTop = 0f;
+        private int _distanceToTopBeforeMoving = 0;
+        private int _distanceToTopWhenMoving = 0;
+        private int _secondItemDistanceToTop = 0;
         private FrameworkElement _movingItem;
 
         public ListViewEx()
@@ -167,14 +171,16 @@ namespace JP.Utils.Control
             _movingVisual = ElementCompositionPreview.GetElementVisual(_movingItem);
             _movingItemIndex = this.IndexFromContainer(_movingItem);
 
-            _secondItemDistanceToTop = (ContainerFromIndex(1) as FrameworkElement).
-                            TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
+            _secondItemDistanceToTop = (int)(ContainerFromIndex(1) as FrameworkElement).
+                            TransformToVisual(_scrollViewer.Content as UIElement).
+                            TransformPoint(new Point(0, 0)).Y;
 
             //Disable transition animation to make the ending smooth.
             DisableTransition();
 
             //The starting position
-            _distanceToTopBeforeMoving = _movingItem.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
+            _distanceToTopBeforeMoving = (int)_movingItem.TransformToVisual(_scrollViewer.Content as UIElement).
+                TransformPoint(new Point(0, 0)).Y;
 
             var items = this.Items;
 
@@ -211,7 +217,8 @@ namespace JP.Utils.Control
 
             var currentIndex = this.IndexFromContainer(currentItem);
 
-            _distanceToTopAfterMoving = currentItem.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0)).Y;
+            _distanceToTopWhenMoving = (int)currentItem.TransformToVisual(_scrollViewer.Content as UIElement)
+                .TransformPoint(new Point(0, 0)).Y;
 
             //Move element by dy.
             _movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
@@ -221,23 +228,26 @@ namespace JP.Utils.Control
                 if (i == currentIndex) continue;
 
                 //Caluclate the position betwee moving item and others and do some animations.
-                AnimateItemOffset(i);
+                AnimateEachItemOffset(i);
             }
 
             //TODO: Scroll the ScrollViewer while the moving item is about to exit the visible area.
-            if (_distanceToTopAfterMoving + _movingVisual.Offset.Y + 20 > _scrollViewer.ActualHeight)
+            if (_distanceToTopWhenMoving + _movingVisual.Offset.Y + 20 > _scrollViewer.ActualHeight)
             {
-                var scrollViewerY = _scrollViewer.VerticalOffset;
-                _scrollViewer.ChangeView(null, e.Delta.Translation.Y + scrollViewerY, null);
+                //var scrollViewerY = _scrollViewer.VerticalOffset;
+                //_scrollViewer.ChangeView(null, e.Delta.Translation.Y + scrollViewerY, null);
                 //_movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
             }
         }
 
         private void UIElementToReorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            foreach (var item in this.Items)
+            for (int i = 0; i < Items.Count; i++)
             {
-                var container = this.ContainerFromItem(item) as ListViewItem;
+                var item = (ItemsSource as IList)[i];
+                //if (i == _movingItemIndex) continue;
+
+                var container = ContainerFromItem(item) as ListViewItem;
                 var containerVisual = ElementCompositionPreview.GetElementVisual(container);
 
                 var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
@@ -249,7 +259,7 @@ namespace JP.Utils.Control
                 containerVisual.StopAnimation("Offset.Y");
             }
 
-            var indexToInsert = (int)Math.Floor((_distanceToTopAfterMoving + _movingItem.ActualHeight / 2) / _secondItemDistanceToTop);
+            var indexToInsert = (int)Math.Floor((_distanceToTopWhenMoving + _movingItem.ActualHeight / 2) / _secondItemDistanceToTop);
             if (indexToInsert < 0) indexToInsert = 0;
             if (indexToInsert >= this.Items.Count) indexToInsert = this.Items.Count - 1;
 
@@ -259,39 +269,103 @@ namespace JP.Utils.Control
             if (collection == null) throw new ArgumentNullException("The ItemsSource should inherit from IList.");
 
             var movingItem = collection[_movingItemIndex];
+            var itemToInsert = collection[indexToInsert];
+            var itemToInsertOffsetY = (ContainerFromItem(itemToInsert) as ListViewItem)
+                .TransformToVisual(_scrollViewer.Content as UIElement)
+                .TransformPoint(new Point(0, 0)).Y;
+            var movingitemToInsertOffsetY = (ContainerFromItem(movingItem) as ListViewItem)
+                .TransformToVisual(_scrollViewer.Content as UIElement)
+                .TransformPoint(new Point(0, 0)).Y;
+
             collection.Remove(movingItem);
             collection.Insert(indexToInsert, movingItem);
 
             OnReorderStopped?.Invoke();
+
+            //var backAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //backAnimation.InsertKeyFrame(1f, _movingVisual.Offset.Y + (float)itemToInsertOffsetY - (float)movingitemToInsertOffsetY);
+            //backAnimation.Duration = TimeSpan.FromMilliseconds(300);
+
+            //var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            //_movingVisual.StartAnimation("Offset.y", backAnimation);
+            //batch.Completed += (s, ex) =>
+            //  {
+            //      collection.Remove(movingItem);
+            //      collection.Insert(indexToInsert, movingItem);
+
+            //      OnReorderStopped?.Invoke();
+            //  };
         }
 
-        private void AnimateItemOffset(int itemIndex)
+
+        private void AnimateEachItemOffset(int itemIndex)
         {
+            string debugInfo = "[NEW]----------------------------" + Environment.NewLine;
+
             var item = this.ContainerFromIndex(itemIndex) as FrameworkElement;
             var itemVisual = ElementCompositionPreview.GetElementVisual(item);
-            var offsetYToTop = (float)(item.TransformToVisual(_scrollViewer.Content as UIElement).TransformPoint(new Point(0, 0))).Y;
+
+            var itemOffsetYToTop = (int)(item.TransformToVisual(_scrollViewer.Content as UIElement)
+                .TransformPoint(new Point(0, 0))).Y;
+
             if (EnableWaggingAnimation)
             {
-                offsetYToTop -= (itemVisual.Offset.Y % 10);
+                //itemOffsetYToTop -= (itemVisual.Offset.Y % 10);
             }
 
-            var targetOffsetY = 0f;
-            if (_distanceToTopAfterMoving > _distanceToTopBeforeMoving)
+            var deltaOffsetY = 0f;
+            var targetOffsetY = itemVisual.Offset.Y + deltaOffsetY;
+
+            // Moving downward
+            if (_distanceToTopWhenMoving > _distanceToTopBeforeMoving)
             {
-                if (offsetYToTop >= _distanceToTopBeforeMoving && offsetYToTop <= _distanceToTopAfterMoving)
+                debugInfo += "MOVING DOWN" + Environment.NewLine;
+
+                if (itemOffsetYToTop >= _distanceToTopBeforeMoving 
+                    && itemOffsetYToTop <= _distanceToTopWhenMoving)
                 {
-                    targetOffsetY = (float)-item.ActualHeight;
+                    debugInfo += "MOVING DOWN,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine;
+
+                    deltaOffsetY = (float)-item.ActualHeight;
+                    targetOffsetY = itemVisual.Offset.Y + deltaOffsetY;
                 }
-                else targetOffsetY = 0f;
+                else
+                {
+                    debugInfo += "MOVING DOWN,NOT INCLUDE" + Environment.NewLine;
+                    debugInfo += "MOVING DOWN,NOT INCLUDE,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine
+                        + "_distanceToTopBeforeMoving" + _distanceToTopBeforeMoving + Environment.NewLine
+                        + "_distanceToTopWhenMoving" + _distanceToTopWhenMoving +
+                        Environment.NewLine;
+
+                    targetOffsetY = 0f;
+                }
             }
+            // Moving topward
             else
             {
-                if (offsetYToTop >= _distanceToTopAfterMoving && offsetYToTop <= _distanceToTopBeforeMoving)
+                debugInfo += "MOVING UP" + Environment.NewLine;
+
+                if (itemOffsetYToTop >= _distanceToTopWhenMoving
+                    && itemOffsetYToTop <= _distanceToTopBeforeMoving)
                 {
-                    targetOffsetY = (float)item.ActualHeight;
+                    debugInfo += "MOVING UP,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine;
+
+                    deltaOffsetY = (float)item.ActualHeight;
+                    targetOffsetY = itemVisual.Offset.Y + deltaOffsetY;
                 }
-                else targetOffsetY = 0f;
+                else
+                {
+                    debugInfo += "MOVING UP,NOT INCLUDE" + Environment.NewLine;
+                    debugInfo += "MOVING UP,NOT INCLUDE,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine
+                        + "_distanceToTopBeforeMoving" + _distanceToTopBeforeMoving + Environment.NewLine
+                        + "_distanceToTopWhenMoving" + _distanceToTopWhenMoving +
+                        Environment.NewLine;
+
+                    targetOffsetY = 0f;
+                }
             }
+
+            targetOffsetY = targetOffsetY.Clamp(-(float)(item.ActualHeight), (float)item.ActualHeight);
 
             //The one are being animated should not be animated at this time.
             //Note that mass number of animations being triggered wil slow down the app, specifically in Mobile device.
@@ -300,8 +374,13 @@ namespace JP.Utils.Control
                 if (itemVisual.Offset.Y == targetOffsetY) return;
 
                 var movingAnim = _compositor.CreateScalarKeyFrameAnimation();
+                movingAnim.InsertKeyFrame(0f, itemVisual.Offset.Y);
                 movingAnim.InsertKeyFrame(1f, targetOffsetY);
                 movingAnim.Duration = TimeSpan.FromMilliseconds(200);
+
+                debugInfo += $"OFFSET:{targetOffsetY} ,INDEX {itemIndex}" + Environment.NewLine;
+                debugInfo += "[END]----------------------------" + Environment.NewLine;
+                System.Diagnostics.Debug.WriteLine(debugInfo);
 
                 //Create a batch to know when the animation would end.
                 var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);

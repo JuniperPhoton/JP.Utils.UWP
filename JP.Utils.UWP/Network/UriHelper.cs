@@ -69,6 +69,10 @@ namespace JP.Utils.Network
                 return null;
             }
             WwwFormUrlDecoder decoder = new WwwFormUrlDecoder(query);
+            if (!uri.AbsoluteUri.Contains(parameterName))
+            {
+                return null;
+            }
             return decoder.GetFirstValueByName(parameterName);
         }
     }
