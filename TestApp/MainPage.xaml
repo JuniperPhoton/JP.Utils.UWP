@@ -15,7 +15,8 @@
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="TabNavigation" Value="Local" />
             <Setter Property="IsHoldingEnabled" Value="True" />
-            <Setter Property="Padding" Value="12,0,12,0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
@@ -60,7 +61,7 @@
                 <DataTemplate>
                     <Grid Margin="4" Background="#FFE6E6E6">
                         <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
+                                   VerticalAlignment="Center" Margin="4" FontSize="20"
                                    Text="{Binding}" />
                         <Border x:Name="border"
                                 Width="50"

@@ -31,7 +31,7 @@ namespace TestApp
         {
             this.InitializeComponent();
             _list = new ObservableCollection<string>();
-            for (int i = 0; i < 21; i++)
+            for (int i = 0; i < 51; i++)
             {
                 _list.Add(i.ToString());
             }
