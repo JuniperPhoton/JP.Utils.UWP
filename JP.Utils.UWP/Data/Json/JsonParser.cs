@@ -16,6 +16,10 @@ namespace JP.Utils.Data.Json
         {
             try
             {
+                if (!obj.GetObject().ContainsKey(propertyName))
+                {
+                    throw new ArgumentNullException();
+                }
                 if (obj.GetObject()[propertyName].ValueType == JsonValueType.String)
                 {
                     return obj.GetObject()[propertyName].GetString();
@@ -40,6 +44,10 @@ namespace JP.Utils.Data.Json
         {
             try
             {
+                if (!obj.GetObject().ContainsKey(propertyName))
+                {
+                    throw new ArgumentNullException();
+                }
                 return obj.GetObject()[propertyName].GetNumber();
             }
             catch (Exception)
@@ -52,6 +60,10 @@ namespace JP.Utils.Data.Json
         {
             try
             {
+                if (!obj.GetObject().ContainsKey(propertyName))
+                {
+                    throw new ArgumentNullException();
+                }
                 return obj.GetObject()[propertyName].GetNumber();
             }
             catch (Exception)
@@ -64,6 +76,10 @@ namespace JP.Utils.Data.Json
         {
             try
             {
+                if (!obj.GetObject().ContainsKey(propertyName))
+                {
+                    throw new ArgumentNullException();
+                }
                 return obj.GetObject()[propertyName].GetBoolean();
             }
             catch (Exception)
@@ -76,6 +92,10 @@ namespace JP.Utils.Data.Json
         {
             try
             {
+                if (!obj.GetObject().ContainsKey(propertyName))
+                {
+                    throw new ArgumentNullException();
+                }
                 return obj.GetObject()[propertyName].GetArray();
             }
             catch (Exception)
@@ -88,6 +108,10 @@ namespace JP.Utils.Data.Json
         {
             try
             {
+                if (!obj.GetObject().ContainsKey(propertyName))
+                {
+                    throw new ArgumentNullException();
+                }
                 return obj.GetObject()[propertyName].GetObject();
             }
             catch (Exception)
