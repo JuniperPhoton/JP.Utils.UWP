@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using JP.Utils.UWP.Data;
+using System.Collections.Generic;
 
 namespace JP.Utils.Control
 {
@@ -42,8 +43,8 @@ namespace JP.Utils.Control
         private int _movingItemIndex;
         private int _zindex;
         private bool[] _isItemsAnimated;
-        private int _distanceToTopBeforeMoving = 0;
-        private int _distanceToTopWhenMoving = 0;
+        private int _distanceToSVTopBeforeMoving = 0;
+        private int _distanceToSVTopOnMoving = 0;
         private int _passingByItemsCount = 0;
         private FrameworkElement _movingItem;
 
@@ -165,7 +166,7 @@ namespace JP.Utils.Control
             DisableTransition();
 
             //The starting position
-            _distanceToTopBeforeMoving = (int)(_movingItem.TransformToVisual(_scrollViewer.Content as UIElement).
+            _distanceToSVTopBeforeMoving = (int)(_movingItem.TransformToVisual(_scrollViewer.Content as UIElement).
                 TransformPoint(new Point(0, 0)).Y);
 
             var items = this.Items;
@@ -197,12 +198,11 @@ namespace JP.Utils.Control
 
             Canvas.SetZIndex(_movingItem, _zindex++);
 
-            _distanceToTopWhenMoving = (int)(_movingItem.TransformToVisual(_scrollViewer.Content as UIElement)
-                .TransformPoint(new Point(0, 0)).Y);
+            _distanceToSVTopOnMoving = (int)e.Cumulative.Translation.Y + _distanceToSVTopBeforeMoving;
 
             _movingVisual.Offset = new Vector3(0f, (float)(_movingVisual.Offset.Y + e.Delta.Translation.Y), 0f);
 
-            var passingCount = (int)_movingVisual.Offset.Y / (int)(uiElement.ActualHeight / 2);
+            var passingCount = (int)(Math.Abs(_movingVisual.Offset.Y) + _movingItem.ActualHeight / 2) / (int)(uiElement.ActualHeight / 2);
 
             if (Math.Abs(passingCount - _passingByItemsCount) == 1)
             {
@@ -230,7 +230,7 @@ namespace JP.Utils.Control
         {
             _passingByItemsCount = 0;
 
-            var indexToInsert = (int)Math.Floor((_distanceToTopWhenMoving + _movingItem.ActualHeight / 2)
+            var indexToInsert = (int)Math.Floor((_distanceToSVTopOnMoving + _movingItem.ActualHeight / 2)
                 / _movingItem.ActualHeight);
 
             if (indexToInsert < 0) indexToInsert = 0;
@@ -259,6 +259,8 @@ namespace JP.Utils.Control
 
             var deltaDistance = (float)itemToInsertOffsetY - (float)movingitemToInsertOffsetY;
 
+            RestoreItemsOpacityStatus();
+
             var backAnimation = _compositor.CreateScalarKeyFrameAnimation();
             backAnimation.InsertKeyFrame(1f, _movingVisual.Offset.Y + deltaDistance);
             backAnimation.Duration = TimeSpan.FromMilliseconds(300);
@@ -267,7 +269,7 @@ namespace JP.Utils.Control
             _movingVisual.StartAnimation("Offset.y", backAnimation);
             batch.Completed += (s, ex) =>
               {
-                  RestoreItemsStatus();
+                  RestoreItemsOffsetStatus();
 
                   collection.Remove(movingItem);
                   collection.Insert(indexToInsert, movingItem);
@@ -287,25 +289,29 @@ namespace JP.Utils.Control
             if (item == null) return;
             var itemVisual = ElementCompositionPreview.GetElementVisual(item);
 
-            var itemOffsetYToTop = (int)((item.TransformToVisual(_scrollViewer.Content as UIElement)
+            var itemOffsetYToSVTop = (int)((item.TransformToVisual(_scrollViewer.Content as UIElement)
                 .TransformPoint(new Point(0, 0))).Y);
 
             var deltaOffsetY = 0f;
             var targetOffsetY = itemVisual.Offset.Y + deltaOffsetY;
 
             // Moving downward
-            if (_distanceToTopWhenMoving > _distanceToTopBeforeMoving)
+            if (_distanceToSVTopOnMoving > _distanceToSVTopBeforeMoving)
             {
 #if DEBUG
                 debugInfo += "MOVING DOWN" + Environment.NewLine;
+                debugInfo += "MOVING DOWN,_distanceToTopBeforeMoving:" + _distanceToSVTopBeforeMoving + Environment.NewLine;
+                debugInfo += "MOVING DOWN,_distanceToTopWhenMoving:" + _distanceToSVTopOnMoving + Environment.NewLine;
+                debugInfo += "MOVING DOWN,_movingItem.ActualHeight / 2:" + _movingItem.ActualHeight / 2 + Environment.NewLine;
+
 #endif
-                if (itemOffsetYToTop >= _distanceToTopBeforeMoving
-                    && itemOffsetYToTop <= _distanceToTopWhenMoving + _movingItem.ActualHeight / 2)
+                if (itemOffsetYToSVTop >= _distanceToSVTopBeforeMoving
+                    && itemOffsetYToSVTop <= _distanceToSVTopOnMoving + _movingItem.ActualHeight / 2)
                 {
 #if DEBUG
-                    debugInfo += "MOVING DOWN,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine;
-                    debugInfo += "MOVING DOWN,_distanceToTopBeforeMoving:" + _distanceToTopBeforeMoving + Environment.NewLine;
-                    debugInfo += "MOVING DOWN,_distanceToTopWhenMoving:" + _distanceToTopWhenMoving + Environment.NewLine;
+                    debugInfo += "MOVING DOWN,itemOffsetYToTop:" + itemOffsetYToSVTop + Environment.NewLine;
+                    debugInfo += "MOVING DOWN,_distanceToTopBeforeMoving:" + _distanceToSVTopBeforeMoving + Environment.NewLine;
+                    debugInfo += "MOVING DOWN,_distanceToTopWhenMoving:" + _distanceToSVTopOnMoving + Environment.NewLine;
 #endif
                     deltaOffsetY = (float)-item.ActualHeight;
                     targetOffsetY = itemVisual.Offset.Y + deltaOffsetY;
@@ -314,9 +320,9 @@ namespace JP.Utils.Control
                 {
 #if DEBUG
                     debugInfo += "MOVING DOWN,NOT INCLUDE" + Environment.NewLine;
-                    debugInfo += "MOVING DOWN,NOT INCLUDE,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine
-                        + "_distanceToTopBeforeMoving" + _distanceToTopBeforeMoving + Environment.NewLine
-                        + "_distanceToTopWhenMoving" + _distanceToTopWhenMoving +
+                    debugInfo += "MOVING DOWN,NOT INCLUDE,itemOffsetYToTop:" + itemOffsetYToSVTop + Environment.NewLine
+                        + "_distanceToTopBeforeMoving" + _distanceToSVTopBeforeMoving + Environment.NewLine
+                        + "_distanceToTopWhenMoving" + _distanceToSVTopOnMoving +
                         Environment.NewLine;
 #endif
                     targetOffsetY = 0f;
@@ -328,11 +334,11 @@ namespace JP.Utils.Control
 #if DEBUG
                 debugInfo += "MOVING UP" + Environment.NewLine;
 #endif
-                if (itemOffsetYToTop >= _distanceToTopWhenMoving - _movingItem.ActualHeight / 2
-                    && itemOffsetYToTop <= _distanceToTopBeforeMoving)
+                if (itemOffsetYToSVTop >= _distanceToSVTopOnMoving - _movingItem.ActualHeight / 2
+                    && itemOffsetYToSVTop <= _distanceToSVTopBeforeMoving)
                 {
 #if DEBUG
-                    debugInfo += "MOVING UP,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine;
+                    debugInfo += "MOVING UP,itemOffsetYToTop:" + itemOffsetYToSVTop + Environment.NewLine;
 #endif
                     deltaOffsetY = (float)item.ActualHeight;
                     targetOffsetY = itemVisual.Offset.Y + deltaOffsetY;
@@ -341,9 +347,9 @@ namespace JP.Utils.Control
                 {
 #if DEBUG
                     debugInfo += "MOVING UP,NOT INCLUDE" + Environment.NewLine;
-                    debugInfo += "MOVING UP,NOT INCLUDE,itemOffsetYToTop:" + itemOffsetYToTop + Environment.NewLine
-                        + "_distanceToTopBeforeMoving" + _distanceToTopBeforeMoving + Environment.NewLine
-                        + "_distanceToTopWhenMoving" + _distanceToTopWhenMoving +
+                    debugInfo += "MOVING UP,NOT INCLUDE,itemOffsetYToTop:" + itemOffsetYToSVTop + Environment.NewLine
+                        + "_distanceToTopBeforeMoving" + _distanceToSVTopBeforeMoving + Environment.NewLine
+                        + "_distanceToTopWhenMoving" + _distanceToSVTopOnMoving +
                         Environment.NewLine;
 #endif
                     targetOffsetY = 0f;
@@ -381,7 +387,7 @@ namespace JP.Utils.Control
             }
         }
 
-        private void RestoreItemsStatus()
+        private void RestoreItemsOpacityStatus()
         {
             for (int i = 0; i < Items.Count; i++)
             {
@@ -389,13 +395,24 @@ namespace JP.Utils.Control
 
                 var container = ContainerFromItem(item) as ListViewItem;
                 var index = IndexFromContainer(container);
-                var containerVisual = ElementCompositionPreview.GetElementVisual(container);
+                var containerVisual = GetVisual(container);
 
                 var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
                 fadeAnimation.InsertKeyFrame(1f, 1f);
                 fadeAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
                 containerVisual.StartAnimation("Opacity", fadeAnimation);
+            }
+        }
+
+        private void RestoreItemsOffsetStatus()
+        {
+            for (int i = 0; i < Items.Count; i++)
+            {
+                var item = (ItemsSource as IList)[i];
+
+                var container = ContainerFromItem(item) as ListViewItem;
+                var containerVisual = GetVisual(container);
                 containerVisual.Offset = new Vector3(0f, 0f, 0f);
             }
         }

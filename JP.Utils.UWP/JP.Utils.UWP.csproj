@@ -125,7 +125,6 @@
     <Compile Include="Device\APIInfoHelper.cs" />
     <Compile Include="Device\DeviceHelper.cs" />
     <Compile Include="Device\PhoneNameResolver.cs" />
-    <Compile Include="Control\CalendarDatePickerEx.cs" />
     <Compile Include="Framework\INavigable.cs" />
     <Compile Include="Framework\InvokeCommandByKeyDown.cs" />
     <Compile Include="Framework\ListViewBaseCommandEx.cs" />
@@ -157,10 +156,7 @@
     <Compile Include="UI\ScrollViewExtension.cs" />
     <Content Include="Properties\JP.Utils.UWP.rd.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Animation\" />
-    <Folder Include="CompositionAPI\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

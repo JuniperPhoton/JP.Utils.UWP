@@ -1,0 +1,28 @@
+﻿<common:BasePage x:Class="TestApp.StartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:TestApp"
+      xmlns:common="using:TestApp.Common"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid Background="White">
+        <GridView HorizontalAlignment="Center" x:Name="NavigationGridView"
+                  VerticalAlignment="Center"
+                  IsItemClickEnabled="True"
+                  ItemClick="GridView_ItemClick"
+                  SelectionMode="None">
+            <GridView.Items>
+                <Grid Width="200"
+                      Height="100"
+                      Background="#FFD6D6D6">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="ListViewEX reorder"
+                               TextWrapping="Wrap" />
+                </Grid>
+            </GridView.Items>
+        </GridView>
+    </Grid>
+</common:BasePage>
