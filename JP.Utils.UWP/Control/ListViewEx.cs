@@ -394,14 +394,14 @@ namespace JP.Utils.Control
                 var item = (ItemsSource as IList)[i];
 
                 var container = ContainerFromItem(item) as ListViewItem;
-                var index = IndexFromContainer(container);
+                //var index = IndexFromContainer(container);
                 var containerVisual = GetVisual(container);
 
                 var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
                 fadeAnimation.InsertKeyFrame(1f, 1f);
                 fadeAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
-                containerVisual.StartAnimation("Opacity", fadeAnimation);
+                containerVisual?.StartAnimation("Opacity", fadeAnimation);
             }
         }
 
@@ -413,7 +413,7 @@ namespace JP.Utils.Control
 
                 var container = ContainerFromItem(item) as ListViewItem;
                 var containerVisual = GetVisual(container);
-                containerVisual.Offset = new Vector3(0f, 0f, 0f);
+                if(containerVisual!=null)  containerVisual.Offset = new Vector3(0f, 0f, 0f);
             }
         }
 
@@ -424,6 +424,7 @@ namespace JP.Utils.Control
 
         public static Visual GetVisual(UIElement element)
         {
+            if (element == null) return null;
             return ElementCompositionPreview.GetElementVisual(element);
         }
         #endregion

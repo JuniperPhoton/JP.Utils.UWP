@@ -111,7 +111,6 @@
     <Compile Include="Application\ContactHelper.cs" />
     <Compile Include="Data\AsyncSemaphore.cs" />
     <Compile Include="Data\DeepCopier.cs" />
-    <Compile Include="Data\ExtMethods.cs" />
     <Compile Include="Data\FileIOHelper.cs" />
     <Compile Include="Data\ICollectionExtension.cs" />
     <Compile Include="Data\Json\JsonMaker.cs" />
@@ -132,7 +131,7 @@
     <Compile Include="Framework\UIElementTapCommand.cs" />
     <Compile Include="Functions\DateTimeExtension.cs" />
     <Compile Include="Functions\Functions.cs" />
-    <Compile Include="Global\GlobalFunc.cs" />
+    <Compile Include="Locale\GlobalFunc.cs" />
     <Compile Include="Image\BitmapImageHelper.cs" />
     <Compile Include="Image\ImageHandleHelper.cs" />
     <Compile Include="Control\ListViewEx.cs" />

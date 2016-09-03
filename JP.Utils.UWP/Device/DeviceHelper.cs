@@ -114,7 +114,16 @@ namespace JP.Utils.Helper
             }
         }
 
-        public static string DeviceModel
+        public static bool IsRS1OS
+        {
+            get
+            {
+                var versions = GetDeviceOsVersion();
+                return versions[2] == "14393" ? true : false;
+            }
+        }
+
+        private static string DeviceModel
         {
             get
             {

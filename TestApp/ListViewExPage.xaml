@@ -57,20 +57,52 @@
     <Grid Background="White">
         <control:ListViewEx x:Name="listview"
                             ItemContainerStyle="{StaticResource ListViewItemStyle1}"
-                            ReorderUIElementName="border">
+                            ReorderUIElementName="ReorderThumb">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="4" Background="#FFE6E6E6">
-                        <TextBlock Margin="4"
-                                   HorizontalAlignment="Left"
+                    <Grid Height="70" Background="#FFE4E4E4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="5,0"
                                    VerticalAlignment="Center"
-                                   FontSize="20"
-                                   Text="{Binding}" />
-                        <Border x:Name="border"
-                                Width="50"
-                                Height="50"
-                                HorizontalAlignment="Right"
-                                Background="#FF00BEFF" />
+                                   Text="{Binding Name,
+                                                  Mode=OneWay}"
+                                   TextTrimming="WordEllipsis" />
+                        <Button x:Name="ReorderThumb"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                            <Border BorderBrush="#0CFFFFFF">
+                                <Grid Width="40"
+                                      Height="30"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border x:Name="border"
+                                            Width="25"
+                                            Height="2"
+                                            Margin="0,0,0,2"
+                                            VerticalAlignment="Bottom"
+                                            Background="Black"
+                                            RenderTransformOrigin="0.5,0.5" />
+
+                                    <Border x:Name="border2"
+                                            Grid.Row="2"
+                                            Width="25"
+                                            Height="2"
+                                            Margin="0,2,0,0"
+                                            VerticalAlignment="Top"
+                                            Background="Black"
+                                            RenderTransformOrigin="0.5,0.5" />
+                                </Grid>
+                            </Border>
+                        </Button>
                     </Grid>
                 </DataTemplate>
 

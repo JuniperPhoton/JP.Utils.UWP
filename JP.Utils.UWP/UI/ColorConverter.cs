@@ -3,9 +3,9 @@ using Windows.UI;
 
 namespace JP.Utils.UI
 {
-    public class ColorConverter
+    public static class ColorConverter
     {
-        public static double GetLumaFromColor(Color color)
+        private static double GetLumaFromColor(Color color)
         {
             return 0.299 * color.R + 0.587 * color.G + 0.114 * color.B;
         }
@@ -18,6 +18,11 @@ namespace JP.Utils.UI
                 return true;
             }
             else return false;
+        }
+
+        public static bool IsLightColor(this Color color)
+        {
+            return IsLight(color);
         }
 
         public static string RGBToHex(int r, int g, int b)
@@ -62,6 +67,11 @@ namespace JP.Utils.UI
             }
 
             return null;
+        }
+
+        public static Color? GetColor(this string colorString)
+        {
+            return HexToColor(colorString);
         }
 
         private static int GetIntFromHex(string strHex)

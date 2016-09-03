@@ -17,7 +17,8 @@ namespace JP.Utils.Network
         /// </summary>
         /// <param name="url">URL 地址</param>
         /// <returns>返回IRandomAccessStream</returns>
-        public static async Task<IRandomAccessStream> GetIRandomAccessStreamFromUrlAsync(string url, CancellationToken? token)
+        public static async Task<IRandomAccessStream> GetIRandomAccessStreamFromUrlAsync(string url, 
+            CancellationToken? token)
         {
             if (string.IsNullOrEmpty(url)) throw new UriFormatException("The url is null or empty.");
 

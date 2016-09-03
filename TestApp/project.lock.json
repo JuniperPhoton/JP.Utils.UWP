@@ -2072,14 +2072,6 @@
           }
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "compile": {
           "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
@@ -4251,14 +4243,6 @@
         },
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -6462,14 +6446,6 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "compile": {
           "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
@@ -8639,14 +8615,6 @@
         },
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -10859,14 +10827,6 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "compile": {
           "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
@@ -13036,14 +12996,6 @@
         },
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -15254,14 +15206,6 @@
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -21340,22 +21284,6 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
-      ]
-    },
-    "UmengAnalytics/3.1.0": {
-      "sha512": "v9JXO5La8JfAQHZmtzBptzKjOWMMkhmv7/M4xGlmtWa/LsW3BKNU9lTDVK3wp66KIAWnTKjdskLjh4Biy2hlKg==",
-      "type": "package",
-      "files": [
-        "UmengAnalytics.3.1.0.nupkg.sha512",
-        "UmengAnalytics.nuspec",
-        "content/_._",
-        "lib/netcore45/UmengAnalyticsWinRT.dll",
-        "lib/netcore451/UmengAnalyticsUniversal.dll",
-        "lib/sl3-wp/UmengAnalyticsWP7.dll",
-        "lib/sl4-wp71/UmengAnalyticsWP7.dll",
-        "lib/wp8/UmengAnalyticsWP8.dll",
-        "lib/wp81/UmengAnalyticsWP8.dll",
-        "lib/wpa81/UmengAnalyticsUniversal.dll"
       ]
     },
     "Win2D.uwp/1.19.0": {

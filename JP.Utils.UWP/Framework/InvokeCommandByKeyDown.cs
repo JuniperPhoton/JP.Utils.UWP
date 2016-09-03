@@ -16,7 +16,8 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandByKeyDown), new PropertyMetadata(null));
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandByKeyDown), 
+                new PropertyMetadata(null));
 
         public VirtualKey PressedKey
         {
@@ -25,7 +26,8 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty PressedKeyProperty =
-            DependencyProperty.Register("PressedKey", typeof(VirtualKey), typeof(InvokeCommandByKeyDown), new PropertyMetadata(VirtualKey.None));
+            DependencyProperty.Register("PressedKey", typeof(VirtualKey), typeof(InvokeCommandByKeyDown),
+                new PropertyMetadata(VirtualKey.None));
 
         public object Execute(object sender, object parameter)
         {

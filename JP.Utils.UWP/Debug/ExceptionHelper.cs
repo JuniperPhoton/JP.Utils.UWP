@@ -13,6 +13,7 @@ using Windows.Storage.Streams;
 
 namespace JP.Utils.Debug
 {
+    [Obsolete("Should use Logger class")]
     public class ExceptionHelper
     {
         [Obsolete("Should use LogAsync(Exception) in Logger class")]
@@ -37,7 +38,6 @@ namespace JP.Utils.Debug
                     Environment.NewLine +
                     "---------------";
                 await FileIO.AppendTextAsync(file, content);
-                await UmengSDK.UmengAnalytics.TrackError(content);
                 return true;
             }
             catch (Exception)
@@ -58,7 +58,6 @@ namespace JP.Utils.Debug
                 System.Diagnostics.Debug.WriteLine(content);
 
                 await FileIO.AppendTextAsync(file, content);
-                await UmengSDK.UmengAnalytics.TrackError(content);
                 return true;
             }
             catch (Exception)

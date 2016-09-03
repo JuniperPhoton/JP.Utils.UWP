@@ -11,7 +11,7 @@ namespace JP.Utils.Functions
 {
     public static class Functions
     {
-        public static bool IsHasCHZN(string inputString)
+        public static bool HasCHZN(string inputString)
         {
             var RegCHZN = new Regex("[\\u4e00-\\u9fa5]");
             var m = RegCHZN.Match(inputString);

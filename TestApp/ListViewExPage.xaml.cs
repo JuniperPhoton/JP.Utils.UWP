@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using TestApp.Common;
+using TestApp.Model;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,8 +15,8 @@ namespace TestApp
 {
     public partial class ListViewExPage : BasePage
     {
-        private ObservableCollection<string> _list;
-        public ObservableCollection<string> List
+        private ObservableCollection<ListViewExData> _list;
+        public ObservableCollection<ListViewExData> List
         {
             get
             {
@@ -31,10 +32,10 @@ namespace TestApp
         public ListViewExPage()
         {
             this.InitializeComponent();
-            _list = new ObservableCollection<string>();
+            _list = new ObservableCollection<ListViewExData>();
             for (int i = 0; i < 51; i++)
             {
-                _list.Add(i.ToString());
+                _list.Add(new ListViewExData() { Name = i.ToString() });
             }
             listview.ItemsSource = _list;
         }

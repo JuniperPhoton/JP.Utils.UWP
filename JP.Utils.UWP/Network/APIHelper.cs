@@ -14,7 +14,7 @@ using JP.API;
 
 namespace JP.Utils.UWP.Network
 {
-    [Obsolete("Please use HttpRequestSender instead.")]
+    [Obsolete("Please use FileDownloadUtil instead.")]
     public static class APIHelper
     {
         /// <summary>

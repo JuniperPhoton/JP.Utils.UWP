@@ -1889,15 +1889,6 @@
           }
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
@@ -3675,15 +3666,6 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
@@ -5405,15 +5387,6 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -7191,15 +7164,6 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
@@ -8921,15 +8885,6 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -10707,15 +10662,6 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        }
-      },
       "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
@@ -12437,15 +12383,6 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "UmengAnalytics/3.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/UmengAnalyticsUniversal.dll": {}
         }
       },
       "Win2D.uwp/1.19.0": {
@@ -15745,22 +15682,6 @@
         "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "UmengAnalytics/3.1.0": {
-      "sha512": "v9JXO5La8JfAQHZmtzBptzKjOWMMkhmv7/M4xGlmtWa/LsW3BKNU9lTDVK3wp66KIAWnTKjdskLjh4Biy2hlKg==",
-      "type": "package",
-      "files": [
-        "UmengAnalytics.3.1.0.nupkg.sha512",
-        "UmengAnalytics.nuspec",
-        "content/_._",
-        "lib/netcore45/UmengAnalyticsWinRT.dll",
-        "lib/netcore451/UmengAnalyticsUniversal.dll",
-        "lib/sl3-wp/UmengAnalyticsWP7.dll",
-        "lib/sl4-wp71/UmengAnalyticsWP7.dll",
-        "lib/wp8/UmengAnalyticsWP8.dll",
-        "lib/wp81/UmengAnalyticsWP8.dll",
-        "lib/wpa81/UmengAnalyticsUniversal.dll"
-      ]
-    },
     "Win2D.uwp/1.19.0": {
       "sha512": "pLL/gLb3uY75IlswAKzOvQnwwiGrMxZyBl2DbJOjuzG6SOWMp0sg+tkj+HZU8uyQ8jIdAbOE0Iu5+z9zyT5E6Q==",
       "type": "package",
@@ -15783,7 +15704,6 @@
     "": [
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.1.0",
-      "UmengAnalytics >= 3.1.0",
       "Win2D.uwp >= 1.19.0"
     ],
     "UAP,Version=v10.0": []
