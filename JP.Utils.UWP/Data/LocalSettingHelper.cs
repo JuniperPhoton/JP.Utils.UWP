@@ -16,18 +16,11 @@ namespace JP.Utils.Data
             return LocalSettings.Values.ContainsKey(key);
         }
 
-        /// <summary>
-        /// 添加键值对
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="notOverride">如果已经存在，是否复写</param>
-        /// <returns></returns>
         public static bool AddValue(string key, string value, bool notOverride = false)
         {
             if (notOverride)
             {
-                if (LocalSettings.Values.ContainsKey(key))
+                if (HasValue(key))
                 {
                     return false;
                 }
@@ -36,18 +29,24 @@ namespace JP.Utils.Data
             return true;
         }
 
-        /// <summary>
-        /// 添加键值对
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <param name="isCheckExist"></param>
-        /// <returns></returns>
-        public static bool AddValue(string key, bool value, bool isCheckExist = false)
+        public static bool AddValue(string key, object value, bool notOverride = false)
         {
-            if (isCheckExist)
+            if (notOverride)
             {
-                if (LocalSettings.Values.ContainsKey(key))
+                if (HasValue(key))
+                {
+                    return false;
+                }
+            }
+            LocalSettings.Values[key] = value;
+            return true;
+        }
+
+        public static bool AddValue(string key, bool value, bool notOverride = false)
+        {
+            if (notOverride)
+            {
+                if (HasValue(key))
                 {
                     return false;
                 }

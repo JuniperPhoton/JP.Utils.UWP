@@ -123,7 +123,7 @@ namespace JP.Utils.Helper
             }
         }
 
-        private static string DeviceModel
+        public static string DeviceModel
         {
             get
             {
