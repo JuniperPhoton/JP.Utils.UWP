@@ -79,6 +79,19 @@ namespace JP.Utils.Network
             return await SendRequest(request, token);
         }
 
+        public static async Task<CommonRespMsg> SendDeleteRequestAsync(string url, CancellationToken token)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, new Uri(url));
+            return await SendRequest(request, token);
+        }
+
+        public static async Task<CommonRespMsg> SendPutRequestAsync(string url, string body, CancellationToken token)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, new Uri(url));
+            request.Content = new StringContent(body);
+            return await SendRequest(request, token);
+        }
+
         public static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request, CancellationToken token)
         {
             var msgToReturn = new CommonRespMsg();
@@ -86,7 +99,7 @@ namespace JP.Utils.Network
             {
                 using (var client = new HttpClient())
                 {
-                    
+
                     //client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; XT1085 Build/LPE23.32-53) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
                     HttpResponseMessage resp = null;
                     if (token == null)
