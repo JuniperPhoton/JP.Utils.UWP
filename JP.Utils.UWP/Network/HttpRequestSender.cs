@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -31,7 +32,7 @@ namespace JP.Utils.Network
             }
             catch (Exception e)
             {
-                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = e.Message };
+                return new CommonRespMsg() { RequestErrorMsg = e.Message };
             }
         }
 
@@ -61,7 +62,7 @@ namespace JP.Utils.Network
             }
             catch (Exception ex)
             {
-                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = ex.Message };
+                return new CommonRespMsg() { RequestErrorMsg = ex.Message };
             }
         }
 
@@ -95,24 +96,21 @@ namespace JP.Utils.Network
         public static async Task<CommonRespMsg> SendRequest(HttpRequestMessage request, CancellationToken token)
         {
             var msgToReturn = new CommonRespMsg();
+            HttpResponseMessage resp = null;
             try
             {
                 using (var client = new HttpClient())
                 {
-
                     //client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; XT1085 Build/LPE23.32-53) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
-                    HttpResponseMessage resp = null;
                     if (token == null)
                     {
                         resp = await client.SendAsync(request);
                     }
                     else resp = await client.SendAsync(request, token);
-                    resp.EnsureSuccessStatusCode();
+                    msgToReturn.ResponseCode = (int)resp.StatusCode;
 
                     var str = await resp.Content.ReadAsStringAsync();
                     msgToReturn.JsonSrc = str;
-
-                    resp.Dispose();
                 }
             }
             catch (TaskCanceledException)
@@ -125,8 +123,11 @@ namespace JP.Utils.Network
             }
             catch (Exception e)
             {
-                msgToReturn.IsRequestSuccessful = false;
                 msgToReturn.RequestErrorMsg += e.Message;
+            }
+            finally
+            {
+                resp?.Dispose();
             }
             return msgToReturn;
         }
