@@ -1,4 +1,5 @@
 ﻿using JP.Utils.UI;
+using JP.Utils.UWP.Data;
 using System;
 using System.Collections;
 using System.Numerics;
@@ -8,8 +9,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
-using JP.Utils.UWP.Data;
-using System.Collections.Generic;
 
 namespace JP.Utils.Control
 {
@@ -58,6 +57,7 @@ namespace JP.Utils.Control
         }
 
         #region Sticky Header
+
         private void header_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _scrollViewer = this.GetScrollViewer();
@@ -89,7 +89,7 @@ namespace JP.Utils.Control
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
 
                 //当往上滚动的时候 ScrollingProperties.Translation.Y 不断负向增加，(ScrollingProperties.Translation.Y +OffsetY)
-                //表明 StickyContent 距离顶部还有多少距离，当要滚出屏幕顶部的时候，(-OffsetY - ScrollingProperties.Translation.Y) 
+                //表明 StickyContent 距离顶部还有多少距离，当要滚出屏幕顶部的时候，(-OffsetY - ScrollingProperties.Translation.Y)
                 //计算还要把 Offset.Y 增加多少才让其 Sticky
                 var scrollingAnimation = compositor.CreateExpressionAnimation(
                     "ScrollingProperties.Translation.Y +OffsetY> 0 ? 0 : -OffsetY - ScrollingProperties.Translation.Y");
@@ -112,9 +112,10 @@ namespace JP.Utils.Control
             return stickyContent;
         }
 
-        #endregion
+        #endregion Sticky Header
 
         #region Reorder
+
         private void this_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             _scrollViewer = this.GetScrollViewer();
@@ -359,7 +360,7 @@ namespace JP.Utils.Control
             targetOffsetY = targetOffsetY.Clamp(-(float)(item.ActualHeight), (float)item.ActualHeight);
 
             //The one are being animated should not be animated at this time.
-            //Note that mass number of animations being triggered wil slow down the app, 
+            //Note that mass number of animations being triggered wil slow down the app,
             //specifically in Mobile device.
             if (!_isItemsAnimated[itemIndex])
             {
@@ -413,7 +414,7 @@ namespace JP.Utils.Control
 
                 var container = ContainerFromItem(item) as ListViewItem;
                 var containerVisual = GetVisual(container);
-                if(containerVisual!=null)  containerVisual.Offset = new Vector3(0f, 0f, 0f);
+                if (containerVisual != null) containerVisual.Offset = new Vector3(0f, 0f, 0f);
             }
         }
 
@@ -427,6 +428,7 @@ namespace JP.Utils.Control
             if (element == null) return null;
             return ElementCompositionPreview.GetElementVisual(element);
         }
-        #endregion
+
+        #endregion Reorder
     }
 }

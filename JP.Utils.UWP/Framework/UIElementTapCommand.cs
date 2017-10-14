@@ -17,7 +17,7 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty ItemTapCommandProperty =
-            DependencyProperty.RegisterAttached("ItemTapCommand", typeof(ICommand), 
+            DependencyProperty.RegisterAttached("ItemTapCommand", typeof(ICommand),
                 typeof(UIElementTapCommand), new PropertyMetadata(null, OnTappedCommandPropertyChanged));
 
         private static void OnTappedCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

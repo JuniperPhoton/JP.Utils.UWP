@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 
 namespace JP.CustomTriggers
 {
@@ -11,6 +6,7 @@ namespace JP.CustomTriggers
     {
         //private variables
         private string _currentDeviceFamily, _queriedDeviceFamily;
+
         //Public property
         public string DeviceFamily
         {

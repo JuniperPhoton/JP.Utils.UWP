@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JP.Utils.Network
 {
@@ -30,7 +27,7 @@ namespace JP.Utils.Network
             MD5 md = Create();
             byte[] hash;
 
-            //Create a new instance of ASCIIEncoding to 
+            //Create a new instance of ASCIIEncoding to
             //convert the string into an array of Unicode bytes.
             UTF8Encoding enc = new UTF8Encoding();
             //            ASCIIEncoding enc = new ASCIIEncoding();
@@ -53,7 +50,9 @@ namespace JP.Utils.Network
         }
 
         #region base implementation of the MD5
+
         #region constants
+
         private const byte S11 = 7;
         private const byte S12 = 12;
         private const byte S13 = 17;
@@ -78,28 +77,35 @@ namespace JP.Utils.Network
               0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
              };
-        #endregion
+
+        #endregion constants
 
         #region F, G, H and I are basic MD5 functions.
+
         static private uint F(uint x, uint y, uint z)
         {
             return (((x) & (y)) | ((~x) & (z)));
         }
+
         static private uint G(uint x, uint y, uint z)
         {
             return (((x) & (z)) | ((y) & (~z)));
         }
+
         static private uint H(uint x, uint y, uint z)
         {
             return ((x) ^ (y) ^ (z));
         }
+
         static private uint I(uint x, uint y, uint z)
         {
             return ((y) ^ ((x) | (~z)));
         }
-        #endregion
+
+        #endregion F, G, H and I are basic MD5 functions.
 
         #region rotates x left n bits.
+
         /// <summary>
         /// rotates x left n bits.
         /// </summary>
@@ -110,10 +116,12 @@ namespace JP.Utils.Network
         {
             return (((x) << (n)) | ((x) >> (32 - (n))));
         }
-        #endregion
+
+        #endregion rotates x left n bits.
 
         #region FF, GG, HH, and II transformations
-        /// FF, GG, HH, and II transformations 
+
+        /// FF, GG, HH, and II transformations
         /// for rounds 1, 2, 3, and 4.
         /// Rotation is separate from addition to prevent recomputation.
         static private void FF(ref uint a, uint b, uint c, uint d, uint x, byte s, uint ac)
@@ -122,42 +130,48 @@ namespace JP.Utils.Network
             (a) = ROTATE_LEFT((a), (s));
             (a) += (b);
         }
+
         static private void GG(ref uint a, uint b, uint c, uint d, uint x, byte s, uint ac)
         {
             (a) += G((b), (c), (d)) + (x) + (uint)(ac);
             (a) = ROTATE_LEFT((a), (s));
             (a) += (b);
         }
+
         static private void HH(ref uint a, uint b, uint c, uint d, uint x, byte s, uint ac)
         {
             (a) += H((b), (c), (d)) + (x) + (uint)(ac);
             (a) = ROTATE_LEFT((a), (s));
             (a) += (b);
         }
+
         static private void II(ref uint a, uint b, uint c, uint d, uint x, byte s, uint ac)
         {
             (a) += I((b), (c), (d)) + (x) + (uint)(ac);
             (a) = ROTATE_LEFT((a), (s));
             (a) += (b);
         }
-        #endregion
+
+        #endregion FF, GG, HH, and II transformations
 
         #region context info
+
         /// <summary>
         /// state (ABCD)
         /// </summary>
-        uint[] state = new uint[4];
+        private uint[] state = new uint[4];
 
         /// <summary>
         /// number of bits, modulo 2^64 (lsb first)
         /// </summary>
-        uint[] count = new uint[2];
+        private uint[] count = new uint[2];
 
         /// <summary>
         /// input buffer
         /// </summary>
-        byte[] buffer = new byte[64];
-        #endregion
+        private byte[] buffer = new byte[64];
+
+        #endregion context info
 
         internal MD5()
         {
@@ -220,7 +234,7 @@ namespace JP.Utils.Network
             else
                 i = 0;
 
-            // Buffer remaining input 
+            // Buffer remaining input
             Buffer.BlockCopy(input, offset + i, this.buffer, index, count - i);
         }
 
@@ -247,7 +261,7 @@ namespace JP.Utils.Network
             // Append length (before padding)
             HashCore(bits, 0, 8);
 
-            // Store state in digest 
+            // Store state in digest
             Encode(digest, 0, state, 0, 16);
 
             // Zeroize sensitive information.
@@ -395,7 +409,8 @@ namespace JP.Utils.Network
                 output[i] = ((uint)input[j]) | (((uint)input[j + 1]) << 8) | (((uint)input[j + 2]) << 16) | (((uint)input[j + 3]) <<
 24);
         }
-        #endregion
+
+        #endregion base implementation of the MD5
 
         #region expose the same interface as the regular MD5 object
 
@@ -416,6 +431,7 @@ namespace JP.Utils.Network
                 return true;
             }
         }
+
         public virtual byte[] Hash
         {
             get
@@ -425,6 +441,7 @@ namespace JP.Utils.Network
                 return (byte[])HashValue.Clone();
             }
         }
+
         public virtual int HashSize
         {
             get
@@ -432,6 +449,7 @@ namespace JP.Utils.Network
                 return HashSizeValue;
             }
         }
+
         protected int HashSizeValue = 128;
 
         public virtual int InputBlockSize
@@ -441,6 +459,7 @@ namespace JP.Utils.Network
                 return 1;
             }
         }
+
         public virtual int OutputBlockSize
         {
             get
@@ -458,6 +477,7 @@ namespace JP.Utils.Network
         {
             return ComputeHash(buffer, 0, buffer.Length);
         }
+
         public byte[] ComputeHash(byte[] buffer, int offset, int count)
         {
             Initialize();
@@ -516,6 +536,7 @@ namespace JP.Utils.Network
             }
             return inputCount;
         }
+
         public byte[] TransformFinalBlock(
             byte[] inputBuffer,
             int inputOffset,
@@ -549,13 +570,15 @@ namespace JP.Utils.Network
             this.State = 0;
             return buffer;
         }
-        #endregion
+
+        #endregion expose the same interface as the regular MD5 object
 
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing)
                 Initialize();
         }
+
         public void Dispose()
         {
             Dispose(true);

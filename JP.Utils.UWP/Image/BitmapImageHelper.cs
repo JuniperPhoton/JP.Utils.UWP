@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace JP.Utils.Image
 {
@@ -65,7 +64,6 @@ namespace JP.Utils.Image
                         return tempfile;
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -114,7 +112,6 @@ namespace JP.Utils.Image
                     return tempfile;
                 }
             }
-
         }
     }
 }

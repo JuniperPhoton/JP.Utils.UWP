@@ -1,7 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
-using System.IO;
 using Windows.Storage.Streams;
 
 namespace JP.Utils.Data

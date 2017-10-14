@@ -26,7 +26,7 @@ namespace JP.Utils.Functions
 
         public static bool IsValidEmail(string strIn)
         {
-            // Return true if strIn is in valid e-mail format. 
+            // Return true if strIn is in valid e-mail format.
             return Regex.IsMatch(strIn, @"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
         }
 
@@ -47,7 +47,6 @@ namespace JP.Utils.Functions
             }
             catch (Exception)
             {
-
             }
         }
 

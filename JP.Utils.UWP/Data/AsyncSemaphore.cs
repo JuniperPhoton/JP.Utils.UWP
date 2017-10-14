@@ -75,7 +75,10 @@ namespace JP.Utils.Data
         {
             private readonly AsyncLock m_toRelease;
 
-            internal Releaser(AsyncLock toRelease) { m_toRelease = toRelease; }
+            internal Releaser(AsyncLock toRelease)
+            {
+                m_toRelease = toRelease;
+            }
 
             public void Dispose()
             {

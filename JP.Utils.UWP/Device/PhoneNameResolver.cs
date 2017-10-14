@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace JP.Utils.Device
 {
@@ -18,14 +14,19 @@ namespace JP.Utils.Device
                 case "NOKIA":
                 case "MICROSOFT":
                     return ResolveNokia(manufacturer, model);
+
                 case "HTC":
                     return ResolveHtc(manufacturer, model);
+
                 case "SAMSUNG":
                     return ResolveSamsung(manufacturer, model);
+
                 case "LG":
                     return ResolveLg(manufacturer, model);
+
                 case "HUAWEI":
                     return ResolveHuawei(manufacturer, model);
+
                 default:
                     return new CanonicalPhoneName()
                     {
@@ -35,11 +36,8 @@ namespace JP.Utils.Device
                         CanonicalModel = model,
                         IsResolved = false
                     };
-
             }
         }
-
-
 
         private static CanonicalPhoneName ResolveHuawei(string manufacturer, string model)
         {
@@ -53,7 +51,6 @@ namespace JP.Utils.Device
                 CanonicalModel = model,
                 IsResolved = false
             };
-
 
             var lookupValue = modelNormalized;
 
@@ -83,8 +80,6 @@ namespace JP.Utils.Device
             return result;
         }
 
-
-
         private static CanonicalPhoneName ResolveLg(string manufacturer, string model)
         {
             var modelNormalized = model.Trim().ToUpper();
@@ -97,7 +92,6 @@ namespace JP.Utils.Device
                 CanonicalModel = model,
                 IsResolved = false
             };
-
 
             var lookupValue = modelNormalized;
 
@@ -135,7 +129,6 @@ namespace JP.Utils.Device
                 IsResolved = false
             };
 
-
             var lookupValue = modelNormalized;
 
             if (lookupValue.StartsWith("GT-S7530"))
@@ -171,7 +164,6 @@ namespace JP.Utils.Device
                 CanonicalModel = model,
                 IsResolved = false
             };
-
 
             var lookupValue = modelNormalized;
 
@@ -237,17 +229,15 @@ namespace JP.Utils.Device
             return result;
         }
 
-
         private static Dictionary<string, CanonicalPhoneName> huaweiLookupTable = new Dictionary<string, CanonicalPhoneName>()
         {
             // Huawei W1
             { "HUAWEI H883G", new CanonicalPhoneName() { CanonicalModel = "Ascend W1" } },
             { "HUAWEI W1", new CanonicalPhoneName() { CanonicalModel = "Ascend W1" } },
-            
+
             // Huawei Ascend W2
             { "HUAWEI W2", new CanonicalPhoneName() { CanonicalModel = "Ascend W2" } },
         };
-
 
         private static Dictionary<string, CanonicalPhoneName> lgLookupTable = new Dictionary<string, CanonicalPhoneName>()
         {
@@ -383,7 +373,7 @@ namespace JP.Utils.Device
             { "ULTIMATE", new CanonicalPhoneName() { CanonicalModel = "Titan" } },
             { "X310E", new CanonicalPhoneName() { CanonicalModel = "Titan" } },
             { "X310E TITAN", new CanonicalPhoneName() { CanonicalModel = "Titan" } },
-            
+
             // Titan II
             { "PI86100", new CanonicalPhoneName() { CanonicalModel = "Titan II", Comments = "AT&T" } },
             { "RADIANT", new CanonicalPhoneName() { CanonicalModel = "Titan II" } },
@@ -392,7 +382,7 @@ namespace JP.Utils.Device
             { "RADAR", new CanonicalPhoneName() { CanonicalModel = "Radar" } },
             { "RADAR 4G", new CanonicalPhoneName() { CanonicalModel = "Radar", Comments = "T-Mobile USA" } },
             { "RADAR C110E", new CanonicalPhoneName() { CanonicalModel = "Radar" } },
-            
+
             // One M8
             { "HTC6995LVW", new CanonicalPhoneName() { CanonicalModel = "One (M8)", Comments="Verizon" } },
             { "0P6B180", new CanonicalPhoneName() { CanonicalModel = "One (M8)", Comments="AT&T" } },

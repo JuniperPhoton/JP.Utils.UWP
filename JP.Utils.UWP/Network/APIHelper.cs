@@ -1,16 +1,14 @@
-﻿using System;
+﻿using JP.API;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.Data.Json;
-using JP.Utils.Data.Json;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.IO;
-using System.Threading;
-using JP.API;
 
 namespace JP.Utils.UWP.Network
 {
@@ -63,7 +61,7 @@ namespace JP.Utils.UWP.Network
             }
             catch (Exception e)
             {
-                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = e.Message };
+                return new CommonRespMsg() { ResponseCode = 400, RequestErrorMsg = e.Message };
             }
         }
 
@@ -89,7 +87,7 @@ namespace JP.Utils.UWP.Network
             }
             catch (Exception ex)
             {
-                return new CommonRespMsg() { IsRequestSuccessful = false, RequestErrorMsg = ex.Message };
+                return new CommonRespMsg() { ResponseCode = 400, RequestErrorMsg = ex.Message };
             }
         }
 
@@ -126,7 +124,7 @@ namespace JP.Utils.UWP.Network
                     var bytes = await resp.Content.ReadAsBufferAsync();
                     var content = Encoding.UTF8.GetString(bytes.ToArray());
                     msgToReturn.JsonSrc = content;
-                    
+
                     resp.Dispose();
                 }
             }
@@ -136,7 +134,7 @@ namespace JP.Utils.UWP.Network
             }
             catch (Exception e)
             {
-                msgToReturn.IsRequestSuccessful = false;
+                msgToReturn.ResponseCode = 400;
                 msgToReturn.RequestErrorMsg += e.Message;
             }
             return msgToReturn;

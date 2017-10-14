@@ -70,7 +70,6 @@ namespace JP.Utils.Helper
             }
         }
 
-
         private static string[] GetDeviceOsVersion()
         {
             string sv = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
@@ -101,7 +100,7 @@ namespace JP.Utils.Helper
             get
             {
                 var versions = GetDeviceOsVersion();
-                return versions[2] == "10240" ? true : false;
+                return versions[2] == "10240";
             }
         }
 
@@ -110,7 +109,7 @@ namespace JP.Utils.Helper
             get
             {
                 var versions = GetDeviceOsVersion();
-                return versions[2] == "10586" ? true : false;
+                return versions[2] == "10586";
             }
         }
 
@@ -119,7 +118,16 @@ namespace JP.Utils.Helper
             get
             {
                 var versions = GetDeviceOsVersion();
-                return versions[2] == "14393" ? true : false;
+                return versions[2] == "14393";
+            }
+        }
+
+        public static bool IsRS2OS
+        {
+            get
+            {
+                var versions = GetDeviceOsVersion();
+                return versions[2] == "15063";
             }
         }
 

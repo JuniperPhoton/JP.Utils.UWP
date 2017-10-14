@@ -1,5 +1,4 @@
 ﻿using JP.Utils.UI;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace JP.Utils.Framework
@@ -19,7 +18,7 @@ namespace JP.Utils.Framework
         }
 
         public static readonly DependencyProperty StyleProperty =
-            DependencyProperty.RegisterAttached("Style", typeof(Style), typeof(ScrollViewerStyleChanger), 
+            DependencyProperty.RegisterAttached("Style", typeof(Style), typeof(ScrollViewerStyleChanger),
                 new PropertyMetadata(null, OnStylePropertyChanged));
 
         private static void OnStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

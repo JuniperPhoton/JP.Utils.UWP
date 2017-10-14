@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -60,6 +56,7 @@ namespace JP.Utils.Framework
         }
 
         #region CommandParameter
+
         public static readonly DependencyProperty ItemClickCommandParameterProperty =
            DependencyProperty.RegisterAttached("ItemClickCommandParameter", typeof(object), typeof(ListViewBaseCommandEx), null);
 
@@ -72,7 +69,7 @@ namespace JP.Utils.Framework
         {
             obj.SetValue(ItemClickCommandParameterProperty, value);
         }
-        #endregion
 
+        #endregion CommandParameter
     }
 }

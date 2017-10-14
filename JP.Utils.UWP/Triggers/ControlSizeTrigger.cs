@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 
 namespace JP.CustomTriggers
 {
@@ -11,6 +6,7 @@ namespace JP.CustomTriggers
     {
         //private variables
         private double _minHeight, _minWidth = -1;
+
         private FrameworkElement _targetElement;
         private double _currentHeight, _currentWidth;
         //public properties to set from XAML
@@ -25,6 +21,7 @@ namespace JP.CustomTriggers
                 _minHeight = value;
             }
         }
+
         public double MinWidth
         {
             get
@@ -36,6 +33,7 @@ namespace JP.CustomTriggers
                 _minWidth = value;
             }
         }
+
         public FrameworkElement TargetElement
         {
             get
@@ -48,6 +46,7 @@ namespace JP.CustomTriggers
                 _targetElement.SizeChanged += _targetElement_SizeChanged;
             }
         }
+
         //Handle event to get current values
         private void _targetElement_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -55,6 +54,7 @@ namespace JP.CustomTriggers
             _currentWidth = e.NewSize.Width;
             UpdateTrigger();
         }
+
         //Logic to evaluate and apply trigger value
         private void UpdateTrigger()
         {

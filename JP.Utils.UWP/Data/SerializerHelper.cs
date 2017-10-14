@@ -1,9 +1,9 @@
 ﻿using JP.Utils.Debug;
 using System;
 using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
 using Windows.Storage;
 
@@ -43,7 +43,7 @@ namespace JP.Utils.Data
             }
             catch (Exception e)
             {
-                var task = Logger.LogAsync(e, true);
+                var task = Logger.LogAsync(e);
                 return false;
             }
         }
@@ -73,7 +73,7 @@ namespace JP.Utils.Data
             }
             catch (Exception e)
             {
-                var task = Logger.LogAsync(e, true);
+                var task = Logger.LogAsync(e);
                 return default(T);
             }
         }

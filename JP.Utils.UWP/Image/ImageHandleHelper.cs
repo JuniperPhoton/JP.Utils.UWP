@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
@@ -49,7 +45,6 @@ namespace JP.Utils.Image
                 outputHeight = height;
             }
             return new Size(outputWidth, outputHeight);
-
         }
 
         private static async Task<StorageFile> GetTempFile(string fileName)
@@ -113,9 +108,7 @@ namespace JP.Utils.Image
                         return null;
                     }
                 }
-
             }
-
         }
     }
 }

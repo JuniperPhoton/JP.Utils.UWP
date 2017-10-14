@@ -6,7 +6,7 @@ namespace JP.Utils.Data.Json
     public class JsonParser
     {
         /// <summary>
-        /// Usage : 
+        /// Usage :
         /// like    var token = JsonParser.GetStringFromJsonObj(json, "token");
         /// </summary>
         /// <param name="obj"></param>
